@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Geoserver</title>  
+	<link rel="stylesheet" href="./ol.css" type="text/css">
+    <script type='text/javascript' src='./ol.js'></script>
+</head>
+<body>
+    <div id="map" class="map"></div>
+    <!--<div id="info">&nbsp;</div>-->
+    <script>
+		var extent = [107.474067687988,29.296257019043,107.946823120117,29.5538539886475];
+		
+		var  proj = new ol.proj.Projection({
+			code: 'EPSG:4326',
+			units: 'degrees',
+			extent: extent
+		});
+		
+		var allFeatures;
+		fetch('http://www.baidu.com').then(function(res){
+			console.log(res.text())});
+    fetch('http://localhost:8080/geoserver/c3its/ows').then(function(response) {
+    		console.log(response.headers);
+        return response.text();
+    }).then(function(response) {
+        allFeatures = new ol.format.WMSGetFeatureInfo({
+          layers: ['c3its:itspostgis']
+        }).readFeatures(response);
+    });
+		
+		var flickrSource = new ol.source.Vector({
+     		features: allFeatures
+    });
+    
+    
+    
+     function flickrStyle(feature) {
+      var style = new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 6,
+          stroke: new ol.style.Stroke({
+            color: 'white',
+            width: 2
+          }),
+          fill: new ol.style.Fill({
+            color: 'green'
+          })
+        })
+      });
+      return [style];
+    }
+
+    var flickrLayer = new ol.layer.Vector({
+      source: flickrSource,
+      style: flickrStyle
+    });
+      
+    
+    var styles = {
+        'red': new ol.style.Style({
+          /*定义为stroke类型*/
+          stroke: new ol.style.Stroke({
+            /*绘制宽度与颜色*/
+            width: 6, color: [255, 0, 0, 0.8]
+          })
+        }),
+        'yellow': new ol.style.Style({
+          /*定义为stroke类型*/
+          stroke: new ol.style.Stroke({
+            /*绘制宽度与颜色*/
+            width: 6, color: [255, 255, 0, 0.8]
+          })
+        }),
+        'green': new ol.style.Style({
+          /*定义为stroke类型*/
+          stroke: new ol.style.Stroke({
+            /*绘制宽度与颜色*/
+            width: 6, color: [0, 255, 0, 0.8]
+          })
+        }),
+      };
+
+    var wmsLayer = new ol.layer.Vector({
+      features: allFeatures,
+      style: new ol.style.Style({
+          /*定义为stroke类型*/
+          stroke: new ol.style.Stroke({
+            /*绘制宽度与颜色*/
+            width: 6, color: [255, 0, 0, 0.8]
+          })
+        })
+    });
+    
+  
+    var view = new ol.View({
+			projection: proj,
+      center: ol.extent.getCenter(extent),
+      zoom: 2
+    });
+
+    var map = new ol.Map({
+      layers: [flickrLayer],
+      target: 'map',
+      view: view
+    });
+
+	 
+    </script>
+  </body>
+</html>

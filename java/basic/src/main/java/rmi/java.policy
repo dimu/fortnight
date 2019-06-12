@@ -1,0 +1,8 @@
+
+// Standard extensions get all permissions by default
+
+grant {
+        permission java.security.AllPermission;
+};
+
+

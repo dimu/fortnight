@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Geoserver</title>  
+	<link rel="stylesheet" href="./ol.css" type="text/css">
+    <script type='text/javascript' src='./ol.js'></script>
+</head>
+<body>
+    <div id="map" class="map"></div>
+    <!--<div id="info">&nbsp;</div>-->
+    <script>
+		var extent = [107.36555011109293,29.297534417311013,107.94447733733497,29.552577151291878];
+		
+		var  proj = new ol.proj.Projection({
+			code: 'EPSG:4326',
+			units: 'degrees',
+			extent: extent
+		});
+		
+    var wmsSource = new ol.source.ImageWMS({
+        url: 'http://localhost:8080/geoserver/c3its/wms',
+        params: {
+					LAYERS: 'c3its:xnslw',
+					VERSION: '1.1.1'
+				},
+        serverType: 'geoserver',
+        crossOrigin: null,
+				extend: extent
+    });
+
+    var wmsLayer = new ol.layer.Image({
+      source: wmsSource
+    });
+    
+    var vectorSource = new ol.source.Vector();
+    
+    var vectorLayer = new ol.layer.Vector({
+    	source: vectorSource
+    });
+
+    var view = new ol.View({
+			projection: proj,
+      center: ol.extent.getCenter(extent),
+      zoom: 2
+    });
+
+    var map = new ol.Map({
+      layers: [wmsLayer, vectorLayer],
+      target: 'map',
+      view: view
+    });
+
+	  /*map.on('singleclick', function(evt) {
+			alert(evt.coordinate);
+	  });*/
+	  
+	  var draw = new ol.interaction.Draw({
+				source: vectorSource,
+				type: 'Circle'
+			}
+		);
+	  
+		map.addInteraction(draw);
+	  
+	 
+     /* map.on('singleclick', function(evt) {
+        document.getElementById('info').innerHTML = '';
+        var viewResolution =  (view.getResolution());
+        var url = wmsSource.getGetFeatureInfoUrl(
+            evt.coordinate, viewResolution, 'EPSG:3857',
+            {'INFO_FORMAT': 'text/html'});
+        if (url) {
+          document.getElementById('info').innerHTML =
+              '<iframe seamless src="' + url + '"></iframe>';
+        }
+      });
+
+      map.on('pointermove', function(evt) {
+        if (evt.dragging) {
+          return;
+        }
+        var pixel = map.getEventPixel(evt.originalEvent);
+        var hit = map.forEachLayerAtPixel(pixel, function() {
+          return true;
+        });
+        map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+      });*/
+    </script>
+  </body>
+</html>

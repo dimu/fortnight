@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    #type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/its
+    username: postgres
+    password: 111111
+    initialSize: 1
+    maxActive: 30
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    validationQuery: SELECT 1
+    filters: stat
+    removeAbandoned: true
+    removeAbandonedTimeout: 1800
+    logAbandoned: true
+    

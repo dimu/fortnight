@@ -1,0 +1,69 @@
+package dwx.res.hadoop.hbase;
+
+import java.io.IOException;
+
+import javax.annotation.Resource;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.Connection;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.client.HBaseAdmin;
+import org.apache.hadoop.hbase.util.Bytes;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.hadoop.hbase.HbaseTemplate;
+import org.springframework.stereotype.Component;
+
+@Component
+public class UserUtils implements InitializingBean {
+
+	private String tableName = "users";
+	private byte[] tableNameAsBytes = Bytes.toBytes("users");
+
+	@Resource(name = "hbaseConfiguration")
+	private Configuration config;
+
+	@Autowired
+	private HbaseTemplate hbaseTemplate;
+
+	@Autowired
+	private UserRepository userRepository;
+
+	private HBaseAdmin admin;
+
+	public void initialize() throws IOException {
+
+		if (admin.tableExists(tableNameAsBytes)) {
+			if (!admin.isTableDisabled(tableNameAsBytes)) {
+				System.out.printf("Disabling %s\n", tableName);
+				admin.disableTable(tableNameAsBytes);
+			}
+			System.out.printf("Deleting %s\n", tableName);
+			admin.deleteTable(tableNameAsBytes);
+		}
+
+		// HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);
+		HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(tableName));
+		HColumnDescriptor columnDescriptor = new HColumnDescriptor(UserRepository.CF_INFO);
+		tableDescriptor.addFamily(columnDescriptor);
+
+		admin.createTable(tableDescriptor);
+
+	}
+
+	public void addUsers() {
+		for (int i = 0; i < 10; i++) {
+			userRepository.save("user" + i, "user" + i + "@yahoo.com", "password" + i);
+		}
+	}
+
+	public void afterPropertiesSet() throws Exception {
+		Connection con = ConnectionFactory.createConnection(config);
+		// admin = new HBaseAdmin(config);
+		admin = (HBaseAdmin) con.getAdmin();
+	}
+
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>test</title>
+    <link rel="stylesheet" href="./ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script type="text/javascript" src="./ol.js"></script>
+  </head>
+  <body>
+  	<div id="map" class="map"></div>
+    <script>
+    	
+      var layers = [
+	      new ol.layer.Vector({
+	        source: new ol.source.ImageVector({
+	        	source: new ol.source.Vector({
+	          	url: 'http://localhost:8080/geoserver/c3its/wms',
+	          	format: new ol.format.WMSGetFeatureInfo({
+	          		layers: ['c3its:xnslw84']
+	          	})
+	          })
+	        })
+	      })
+      ];
+
+      var map = new ol.Map({
+        layers: layers,
+        target: 'map',
+        view: new ol.View({
+          center : [0, 0],
+          zoom: 1
+        })
+      });
+    </script>
+  </body>
+</html>

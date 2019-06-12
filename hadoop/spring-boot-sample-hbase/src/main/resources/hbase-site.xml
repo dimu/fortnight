@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+  <property>
+    <name>hbase.master</name>
+    <value>centos22:6000</value>
+  </property>
+  <property>
+    <name>hbase.master.maxclockskew</name>
+    <value>180000</value>
+  </property>
+  <property>
+    <name>hbase.rootdir</name>
+    <value>hdfs://centos22:9000/hbase</value>
+  </property>
+  <property>
+    <name>hbase.cluster.distributed</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.quorum</name>
+    <value>centos22:2181,slave24:2181,slave21:2181,slave26:2181</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.property.dataDir</name>
+    <value>/home/tmp/zookeeper</value>
+  </property>
+  <property>
+    <name>dfs.replication</name>
+    <value>1</value>
+  </property>
+</configuration>
