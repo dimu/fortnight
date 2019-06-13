@@ -1,4 +1,4 @@
-package dimu.ssm.config;
+package dimu.res.config;
 
 /**
  * custom exception

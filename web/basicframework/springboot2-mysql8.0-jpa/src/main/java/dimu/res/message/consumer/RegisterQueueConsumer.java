@@ -1,4 +1,4 @@
-package dimu.ssm.message.consumer;
+package dimu.res.message.consumer;
 
 import java.util.Date;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * spring boot rabbitmq consumer demo
- * @author dwx
+ * @author dimu
  *
  */
 @Component

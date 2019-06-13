@@ -1,4 +1,4 @@
-package dimu.ssm;
+package dimu.res;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,6 @@ import redis.clients.jedis.JedisPool;
  *
  */
 @SpringBootApplication
-@ComponentScan(basePackages="dimu.ssm")
 public class Application implements ApplicationRunner{
 
     @Resource 
@@ -50,7 +49,7 @@ public class Application implements ApplicationRunner{
     private KafkaMessageProducer kafkaMessageProducer;
     
     public static void main(String[] args) {
-        SpringApplication.run(SsmApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
     @Override

@@ -1,19 +1,19 @@
-package dimu.ssm.mapper;
+package dimu.res.mapper;
 
 import java.util.List;
 import java.util.Map;
 
+import dimu.res.model.User;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import dimu.ssm.model.User;
 
 /**
  * 
- * @author dwx
+ * @author dimu
  *
  */
 @Mapper
@@ -45,7 +45,7 @@ public interface UserMapper {
 
     /**
      * annotation page query
-     * @param pageNo page no. start from 0
+     * @param pageSize page no. start from 0
      * @param offset offset value
      * @param queryMap query condition map
      * @return search 

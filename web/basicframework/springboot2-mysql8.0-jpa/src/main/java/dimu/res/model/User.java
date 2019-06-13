@@ -1,10 +1,10 @@
-package dimu.ssm.model;
+package dimu.res.model;
 
 import java.io.Serializable;
 
 /**
  * user domain
- * @author dwx
+ * @author dimu
  *
  */
 public class User implements Serializable{

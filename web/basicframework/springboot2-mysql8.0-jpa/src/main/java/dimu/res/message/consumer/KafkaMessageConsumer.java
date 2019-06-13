@@ -1,11 +1,11 @@
-package dimu.ssm.message.consumer;
+package dimu.res.message.consumer;
 
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 /**
  * kafka message consumer demo
- * @author dwx
+ * @author dimu
  *
  */
 @Component

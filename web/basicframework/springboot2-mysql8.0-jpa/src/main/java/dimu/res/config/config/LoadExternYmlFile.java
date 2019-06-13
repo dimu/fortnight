@@ -1,5 +1,8 @@
 package dimu.res.config.config;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+
 import javax.annotation.Resource;
 
 /**
