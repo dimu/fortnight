@@ -1,4 +1,4 @@
-package dimu.ssm.auth;
+package dimu.res.auth;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

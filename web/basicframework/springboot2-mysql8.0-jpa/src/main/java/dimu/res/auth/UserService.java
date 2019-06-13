@@ -1,4 +1,4 @@
-package dimu.ssm.auth;
+package dimu.res.auth;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package dimu.ssm.auth;
+package dimu.res.auth;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

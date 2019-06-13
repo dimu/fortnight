@@ -1,4 +1,4 @@
-package dimu.ssm.auth;
+package dimu.res.auth;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,12 +6,10 @@ import java.util.function.Function;
 
 import javax.annotation.Resource;
 
+import dimu.res.mapper.UserMapper;
+import dimu.res.model.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import dimu.ssm.mapper.UserMapper;
-import dimu.ssm.model.User;
-
 
 
 @Service("userService")

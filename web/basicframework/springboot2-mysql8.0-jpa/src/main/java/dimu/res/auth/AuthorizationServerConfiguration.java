@@ -1,4 +1,4 @@
-package dimu.ssm.auth;
+package dimu.res.auth;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;

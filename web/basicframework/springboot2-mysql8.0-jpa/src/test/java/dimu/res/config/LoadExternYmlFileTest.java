@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@TestPropertySource({"externproperties.yml","classpath:application.yml","classpath:map.properties"})
+@TestPropertySource({"classpath:externproperties.yml","classpath:application.yml","classpath:map.properties"})
 public class LoadExternYmlFileTest {
 
     @Resource
