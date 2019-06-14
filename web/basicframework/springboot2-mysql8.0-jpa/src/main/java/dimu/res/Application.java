@@ -1,29 +1,15 @@
 package dimu.res;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Resource;
-
+import dimu.res.message.provider.KafkaMessageProducer;
+import dimu.res.message.provider.RegisterMessageProvider;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScans;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import dimu.ssm.config.redis.distributedlock.DistributedLockCallback;
-import dimu.ssm.config.redis.distributedlock.RedisLockTemplate;
-import dimu.ssm.message.provider.KafkaMessageProducer;
-import dimu.ssm.message.provider.RegisterMessageProvider;
-import redis.clients.jedis.JedisPool;
+import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * springboot2.0 mybatis integration
@@ -35,11 +21,8 @@ public class Application implements ApplicationRunner{
 
     @Resource 
     private RedisTemplate<String, String> stringRedisTemplate;
-    
-    @Resource
-    private JedisPool jedisPool;
-    
-//    @Resource 
+
+    //    @Resource
 //    private StringRedisTemplate stringRedisTemplate;
     
     @Resource 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * @author dwx
  *
  */
-@ControllerAdvice("dimu.ssm")
+@ControllerAdvice("dimu.res")
 public class GlobalExceptionHandler {
     
     private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);

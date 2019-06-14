@@ -1,4 +1,4 @@
-package dimu.ssm.message.provider;
+package dimu.res.message.provider;
 
 import javax.annotation.Resource;
 

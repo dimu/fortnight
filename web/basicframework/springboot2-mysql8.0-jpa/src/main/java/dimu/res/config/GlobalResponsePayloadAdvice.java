@@ -19,7 +19,7 @@ import java.util.List;
  * @author dwx
  *
  */
-@RestControllerAdvice("dimu.ssm")
+@RestControllerAdvice("dimu.res")
 public class GlobalResponsePayloadAdvice implements ResponseBodyAdvice<Object>{
     
     Logger log = LoggerFactory.getLogger(GlobalResponsePayloadAdvice.class);

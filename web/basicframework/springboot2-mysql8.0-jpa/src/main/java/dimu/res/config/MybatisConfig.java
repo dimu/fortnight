@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  *
  */
 @Configuration
-@MapperScan("dimu.ssm.mapper")
+@MapperScan("dimu.res.mapper")
 public class MybatisConfig {
     
 }

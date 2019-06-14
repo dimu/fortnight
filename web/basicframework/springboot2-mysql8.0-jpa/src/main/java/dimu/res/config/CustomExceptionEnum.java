@@ -3,7 +3,7 @@ package dimu.res.config;
 /**
  * custom exception enum
  * 
- * @author dwx
+ * @author dimu
  *
  */
 public enum CustomExceptionEnum {

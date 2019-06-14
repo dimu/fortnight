@@ -2,7 +2,7 @@ package dimu.res.config;
 
 /**
  * 自定义返回对象
- * @author dwx
+ * @author dimu
  *
  * @param <T>
  */

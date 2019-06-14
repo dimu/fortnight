@@ -2,7 +2,7 @@ package dimu.res.config;
 
 /**
  * custom exception
- * @author dwx
+ * @author dimu
  *
  */
 public class CustomException extends Exception{

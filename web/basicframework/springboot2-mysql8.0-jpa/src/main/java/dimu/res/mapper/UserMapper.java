@@ -48,7 +48,7 @@ public interface UserMapper {
      * @param pageSize page no. start from 0
      * @param offset offset value
      * @param queryMap query condition map
-     * @return search 
+     * @return search result
      */
     @Select("select * from user limit #{pageSize} offset #{offset}")
     List<User> pageQuery(@Param("pageSize") int pageSize, @Param("offset") int offset, Map<String, Object> queryMap);
