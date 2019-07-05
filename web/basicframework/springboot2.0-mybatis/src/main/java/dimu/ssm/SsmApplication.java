@@ -30,7 +30,6 @@ import redis.clients.jedis.JedisPool;
  * @author dwx
  *
  */
-@EnableAutoConfiguration
 @SpringBootApplication
 @ComponentScan(basePackages="dimu.ssm")
 public class SsmApplication implements ApplicationRunner{
