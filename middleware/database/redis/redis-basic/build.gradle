@@ -1,0 +1,5 @@
+mainClassName = 'dwx.res.redis.basic.BasicApplication'
+
+dependencies {
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

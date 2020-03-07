@@ -10,7 +10,6 @@ import java.io.IOException;
 public class TryWithResourceTest {
 
     public static void main(String[] args) {
-
         try (BufferedReader br = new BufferedReader(new FileReader(
                 "D:\\opt\\log\\stash\\admin\\admin.log"))) {
             while(br.read() != -1) {

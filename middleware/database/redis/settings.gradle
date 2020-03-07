@@ -1,0 +1,7 @@
+//设置根工程
+rootProject.name = 'redis'
+
+//
+include 'dwx-res-redis-basic'
+project(':dwx-res-redis-basic').projectDir = new File(settingsDir, 'redis-basic')
+

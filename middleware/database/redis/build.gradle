@@ -1,0 +1,51 @@
+//标准库插件
+plugins {
+    id 'org.springframework.boot' version '2.2.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+}
+
+configure(allprojects) {
+    apply plugin: 'java'
+	apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
+
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+        maven { url "http://maven.oschina.net/content/groups/public/" }
+        maven { url "http://repo.spring.io/libs-snapshot" }
+        mavenCentral()
+        jcenter()
+    }
+
+    configurations {
+        compile.exclude group: "ch.qos.logback"
+        compile.exclude group: "org.slf4j", module: "log4j-over-slf4j"
+        compile.exclude group: "org.slf4j", module: "jcl-over-slf4j"
+        compile.exclude group: "org.slf4j", module: "jul-over-slf4j"
+        compile.exclude group: "org.slf4j", module: "jul-to-slf4j"
+    }
+}
+
+subprojects {
+    apply plugin: 'application'
+    apply plugin: 'idea'
+
+    group = 'dwx.tech.res.redis'
+    version = redis_version
+
+    //jdk版本
+    sourceCompatibility = java_version
+    targetCompatibility = java_version
+
+    ext {
+        //配置编码
+        compileJava.options.encoding = 'UTF-8'
+        compileTestJava.options.encoding = 'UTF-8'
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+		implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    }
+}
+
