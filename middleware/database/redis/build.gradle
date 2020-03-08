@@ -1,7 +1,7 @@
 //标准库插件
 plugins {
     id 'org.springframework.boot' version '2.2.5.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+   // id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 }
 
 configure(allprojects) {
@@ -46,6 +46,9 @@ subprojects {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter'
 		implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+        
+        //lettuce dependency 
+        implementation 'org.apache.commons:commons-pool2'
     }
 }
 
