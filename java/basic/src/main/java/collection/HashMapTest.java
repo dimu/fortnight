@@ -32,7 +32,7 @@ public class HashMapTest {
     }
 
     /**
-     * return
+     * return tablesize for hashmap
      */
     @Test
     public void testTableSizeforCapacity() {
