@@ -27,6 +27,7 @@ public class SerialAndConcurrencyCompare {
                 a += 5;
             }
         });
+        addThread.setName("addThread");
         addThread.start();
         int b = 0;
         for (long i = 0; i < count; i++) {
