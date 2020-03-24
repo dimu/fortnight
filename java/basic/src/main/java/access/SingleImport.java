@@ -1,6 +1,7 @@
 package access;
 
-//: access/SingleImport.java
+import org.apache.commons.math3.analysis.function.Sin;
+
 import java.util.ArrayList;
 
 public class SingleImport {
@@ -12,7 +13,7 @@ public class SingleImport {
 
   public static void main(String[] args) {
     ArrayList list = new java.util.ArrayList();
-
+    new SingleImport(12);
   }
 
   public  SingleImport(int count) {
@@ -22,4 +23,4 @@ public class SingleImport {
     this.COUNT = count;
   }
 
-} ///:~
+}
