@@ -28,6 +28,20 @@ public class ConnectionPool {
     }
 
     /**
+     * release database connection. push the connection into the linked list
+     * @param connection
+     */
+    public void releaseConnection(Connection connection) {
+
+        if (null != connection) {
+            synchronized (pool) {
+                pool.addLast(connection);
+                pool.notifyAll();
+            }
+        }
+    }
+
+    /**
      * fetch connection
      * @param millis timeout
      * @return null if not get a connection, otherwise return the connection
