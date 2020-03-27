@@ -38,17 +38,19 @@ public class ConnectionPoolTest {
 
         @Override
         public void run() {
+            Connection connection = null;
             try {
                 start.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            Connection connection = connectionPool.fetchConnection();
-            try {
+                connection = connectionPool.fetchConnection(1000);
                 connection.commit();
             } catch (SQLException e) {
                 e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                connectionPool.releaseConnection(connection);
             }
 
         }
