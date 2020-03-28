@@ -1,7 +1,6 @@
 package connectionpool;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -33,7 +32,7 @@ public class ConnectionPoolTest {
         AtomicInteger notGetCount = new AtomicInteger();
 
         for (int i = 0; i < thread_size; i++) {
-            Thread thread = new Thread( new ConnectionClient(repeatCount, getCount, notGetCount) );
+            Thread thread = new Thread(new ConnectionClient(repeatCount, getCount, notGetCount));
             thread.start();
         }
 
@@ -41,7 +40,7 @@ public class ConnectionPoolTest {
         end.await();
 
         System.out.println("total invoke " + (repeatCount * thread_size));
-        System.out.println("get connection: " + getCount );
+        System.out.println("get connection: " + getCount);
         System.out.println("not get connection: " + notGetCount);
 
     }
@@ -69,7 +68,7 @@ public class ConnectionPoolTest {
                 e.printStackTrace();
             }
 
-            while (repeatTime > 0 ) {
+            while (repeatTime > 0) {
                 try {
                     Connection connection = connectionPool.fetchConnection(1000);
                     if (null != connection) {
