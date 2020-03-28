@@ -88,7 +88,9 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
         @Override
         public void run() {
             while (running) {
-                synchronized (jobs)
+                synchronized (jobs) {
+
+                }
             }
         }
 
