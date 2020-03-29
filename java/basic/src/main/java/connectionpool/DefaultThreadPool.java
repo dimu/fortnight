@@ -1,7 +1,5 @@
 package connectionpool;
 
-import org.apache.poi.ss.usermodel.Workbook;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -68,12 +66,32 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
 
     @Override
     public void addWorkers(int num) {
-
+        synchronized (jobs) {
+            if (this.workerNum + num > MAX_WORKERS_SIZE) {
+                num = MAX_WORKERS_SIZE - num;
+            }
+            initialWorkers(num);
+            this.workerNum += num;
+        }
     }
 
     @Override
     public void removeWorker(int num) {
+        synchronized (jobs) {
+            if ( num >= this.workerNum) {
+                throw new IllegalArgumentException("boyond worknum");
+            }
 
+            int count = 0;
+            while (count < num) {
+              Worker worker =  workers.get(count);
+              if (workers.remove(worker)) {
+                  worker.shutdown();
+                  count++;
+              }
+            }
+            this.workerNum -= num;
+        }
     }
 
     @Override
@@ -87,12 +105,32 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
 
         @Override
         public void run() {
-            while (running) {
+            System.out.println(Thread.currentThread().getName() + " begin run");
+//            while (running) {
+                Job job;
                 synchronized (jobs) {
+                    while(running && jobs.isEmpty()) {
+                        try {
+                            System.out.println(Thread.currentThread().getName() + " is waiting!");
+                            jobs.wait();
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                            e.printStackTrace();
+                            return;
+                        }
+                    }
+                    job = jobs.removeFirst();
+                }
 
+                if (null != job) {
+                    try {
+                        job.run();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-        }
+//        }
 
         private void shutdown() {
             running = false;
