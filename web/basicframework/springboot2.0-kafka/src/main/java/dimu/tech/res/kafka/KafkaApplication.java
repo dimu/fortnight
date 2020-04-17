@@ -26,7 +26,7 @@ public class KafkaApplication implements ApplicationRunner{
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        kafkaMessageProducer.produceMessage();
+//        kafkaMessageProducer.produceMessage();
         
 //        RedisLockTemplate<String> redisLockTemplate = new RedisLockTemplate<>(jedisPool);
 //        ExecutorService executor = Executors.newFixedThreadPool(10);

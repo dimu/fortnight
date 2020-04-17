@@ -17,6 +17,14 @@ spring:
     - 172.19.3.195:9092
     - 172.19.3.196:9092
     consumer:
-      group-id: kafka-test
-          
-          
+      group-id: building-test
+      #关闭自动提交
+      enable-auto-commit: false
+#      max-poll-records: 128
+      fetch-min-size: 128
+      fetch-max-wait: 30
+      client-id: dwx-pc
+    listener:
+      # 配置手动提交方式
+      ack-mode: manual
+      concurrency: 6
