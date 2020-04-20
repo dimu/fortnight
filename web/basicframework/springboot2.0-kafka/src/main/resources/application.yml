@@ -27,4 +27,5 @@ spring:
     listener:
       # 配置手动提交方式
       ack-mode: manual
+      # 并发度
       concurrency: 6

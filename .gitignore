@@ -21,6 +21,7 @@ build
 logs
 work
 bin
+out
 npm-*.log
 WEB-INF
 *.ldb
