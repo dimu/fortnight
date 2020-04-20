@@ -37,7 +37,7 @@ dependencies {
 	compile 'junit:junit:4.12'
 	
 	//add groovy test
-	compile 'org.codehaus.groovy:groovy-all:2.4.10'
+//	compile 'org.codehaus.groovy:groovy-all:2.4.10'
 	
 	compile 'com.alibaba:fastjson:1.2.32'
 	//compile group: 'net.sf.json-lib', name: 'json-lib', version:'2.4', classifier:'jdk15'

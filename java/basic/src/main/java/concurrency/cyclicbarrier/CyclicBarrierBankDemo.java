@@ -13,7 +13,7 @@ public class CyclicBarrierBankDemo implements Runnable {
 
     private final ConcurrentHashMap<String, Integer> countMap = new ConcurrentHashMap<>();
     private CyclicBarrier barrier = new CyclicBarrier(4, this);
-    private Executor executor = Executors.newFixedThreadPool(4);
+    private ExecutorService executor = Executors.newFixedThreadPool(4);
 
     public static void main(String[] args) {
         CyclicBarrierBankDemo demo = new CyclicBarrierBankDemo();
@@ -33,6 +33,8 @@ public class CyclicBarrierBankDemo implements Runnable {
                 }
             });
         }
+
+        executor.shutdown();
     }
 
     @Override
