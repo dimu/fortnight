@@ -11,8 +11,14 @@ import java.util.concurrent.*;
  */
 public class SemaphoreTest {
 
+    /**
+     * 信号灯数量为10
+     */
     private static final Semaphore semaphore = new Semaphore(10);
 
+    /**
+     * 任务线程为30个，大于信号灯的数量，每次只能够有10个线程能够执行
+     */
     private static final ExecutorService executors = Executors.newFixedThreadPool(30);
 
     public static void main(String[] args) {
