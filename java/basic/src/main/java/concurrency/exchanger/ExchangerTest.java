@@ -6,7 +6,9 @@ import java.util.concurrent.Executors;
 
 /**
  * exchanger 用于两个线程之间交换数据，通过exchange()方法同步点来交换数据，应用场景
- * 数据核对等
+ * 数据核对等3
+ *
+ * @author dwx
  */
 public class ExchangerTest {
 
@@ -18,6 +20,9 @@ public class ExchangerTest {
 
         executors.execute(() -> {
             try {
+                /**
+                 * 交换数据123, 获取另一个线程返回的数据，交换与返回遵循happens-before原则
+                 */
                 String b = exchanger.exchange("123");
                 System.out.println("thread A get: " + b);
             } catch (InterruptedException e) {
