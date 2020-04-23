@@ -36,7 +36,17 @@ public class ZnodeTest {
     }
 
     @Test
-    public void createTTLPersistentNode() {
+    public void createTTLPersistentNode() throws Exception {
+        curatorFramework.start();
 
+        Stat stat =curatorFramework.checkExists().forPath("/dwx2/age");
+
+        if ( null != stat ) {
+            System.out.println("node already exist: " + stat.toString());
+        } else {
+            String age = curatorFramework.create().forPath("/dwx2/age", String.valueOf(30).getBytes());
+            System.out.println("set value: " + age);
+        }
+        curatorFramework.close();
     }
 }
