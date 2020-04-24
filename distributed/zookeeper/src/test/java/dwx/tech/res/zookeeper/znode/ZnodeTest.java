@@ -22,14 +22,17 @@ public class ZnodeTest {
 
     @Test
     public void createPersistentNode() throws Exception {
+
+        String path = "/dwx/name";
+
         curatorFramework.start();
 
-        Stat stat =curatorFramework.checkExists().forPath("/dwx2/age");
+        Stat stat =curatorFramework.checkExists().forPath(path);
 
         if ( null != stat ) {
             System.out.println("node already exist: " + stat.toString());
         } else {
-            String age = curatorFramework.create().forPath("/dwx2/age", String.valueOf(30).getBytes());
+            String age = curatorFramework.create().forPath(path, String.valueOf(30).getBytes());
             System.out.println("set value: " + age);
         }
         curatorFramework.close();
