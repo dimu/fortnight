@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -29,12 +30,19 @@ public class ZnodeTest {
 
         Stat stat =curatorFramework.checkExists().forPath(path);
 
-        if ( null != stat ) {
-            System.out.println("node already exist: " + stat.toString());
-        } else {
-            String age = curatorFramework.create().forPath(path, String.valueOf(30).getBytes());
-            System.out.println("set value: " + age);
-        }
+
+            if ( null != stat ) {
+                System.out.println(Thread.currentThread().getName() + ": node already exist: " + stat.toString());
+                for (long count = 0; count <= 0x1 << 32; count ++) {
+                    System.out.println(Thread.currentThread().getName() + ": current count value:" + count);
+                    curatorFramework.setData().forPath(path, String.valueOf(123).getBytes());
+                }
+            } else {
+                String age = curatorFramework.create().forPath(path, String.valueOf(30).getBytes());
+                System.out.println("set value: " + age);
+            }
+
+//        TimeUnit.MINUTES.sleep(10);
         curatorFramework.close();
     }
 

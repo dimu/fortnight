@@ -28,7 +28,7 @@ public class ZookeeperConnection {
     @Bean
     public CuratorFramework curatorFramework() {
 
-        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(servers, new RetryNTimes(3, 10));
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(servers, 60*1000*1000, 60*1000*1000,new RetryNTimes(3, 10));
 
         Watcher customWatcher = new CustomWatcher();
 
