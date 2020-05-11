@@ -1,6 +1,5 @@
 package dimu.tech.res.mongodb.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import org.springframework.data.mongodb.core.mapping.Document;

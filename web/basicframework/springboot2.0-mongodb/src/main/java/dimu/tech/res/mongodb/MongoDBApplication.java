@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
  * @author dwx
  */
 @SpringBootApplication
-public class MongoDBApplication implements CommandLineRunner {
+public class MongoDBApplication {
 
     @Resource
     private MongoTemplate mongoTemplate;
@@ -24,17 +24,17 @@ public class MongoDBApplication implements CommandLineRunner {
         SpringApplication.run(MongoDBApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-
-        StuClass stuClass = new StuClass();
-        stuClass.setGrade(1);
-        stuClass.setName("1年级4班");
-        stuClass.setTeacher("lily");
-        stuClass.setTotalStudent(32);
-
-        mongoTemplate.save(stuClass);
-    }
+//    @Override
+//    public void run(String... args) throws Exception {
+//
+//        StuClass stuClass = new StuClass();
+//        stuClass.setGrade(1);
+//        stuClass.setName("1年级4班");
+//        stuClass.setTeacher("lily");
+//        stuClass.setTotalStudent(32);
+//
+//        mongoTemplate.save(stuClass);
+//    }
 }
 
 
