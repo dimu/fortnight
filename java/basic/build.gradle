@@ -6,9 +6,9 @@ compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
 repositories {
-	maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
-	maven { url "http://maven.oschina.net/content/groups/public/" }
-	maven { url "http://repo.spring.io/libs-snapshot" }
+	maven { url "https://maven.aliyun.com/nexus/content/groups/public" }
+	maven { url "https://maven.oschina.net/content/groups/public/" }
+	maven { url "https://repo.spring.io/libs-snapshot" }
 	mavenCentral()
 }
 
@@ -58,5 +58,5 @@ dependencies {
 	implementation "org.apache.poi:poi-ooxml:4.1.0"
 
 	//java caffeine cache
-	implementation "com.github.ben-manes.caffeine:caffeine:2.8.4"
+	compile "com.github.ben-manes.caffeine:caffeine:2.8.4"
 }
