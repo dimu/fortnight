@@ -37,12 +37,15 @@ public class BasicOperation {
 		mongoTemplate.insert(jsonString, "person");
 	}
 
+	/**
+	 * batch insert
+	 */
 	@Test
 	public void batchInsert() {
 
 		List<Student> list = new ArrayList<>();
 
-		for (int i = 0; i< 50; i++) {
+		for (int i = 0; i< 1000000; i++) {
 			Student student = new Student();
 			student.setAge(RandomUtils.rangeInt(7, 12));
 			student.setSex(RandomUtils.rangeInt(0, 1) == 1);
@@ -53,6 +56,15 @@ public class BasicOperation {
 		}
 
 		mongoTemplate.insert(list, "person");
+	}
+
+	@Test
+	public void pageQuery() {
+		long start  = System.currentTimeMillis();
+		System.out.println(mongoTemplate.count(null, "person"));
+		long end  = System.currentTimeMillis();
+
+		System.out.println("query time: " + (end - start));
 	}
 
 	@Test

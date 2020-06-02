@@ -25,24 +25,17 @@ public class KafkaMessageConsumer {
     @Resource
     private UserMapper userMapper;
 
-//    @KafkaListener(topics = "kafka-test")
-    public void processMessage(String content) {
-        User user = JSON.parseObject(content, User.class);
-        userMapper.insert(user);
-        System.out.println("consumer user " + count++);
+//    @KafkaListener(topics = "tm-setPropertiesReply")
+    public void processTestMessage(String content) {
+        System.out.println("receive message: " + content);
     }
 
-//    @KafkaListener(topics = "building")
-//    public void processTestMessage(String content) {
-//        System.out.println("receive message: " + content);
-//    }
-
 //    @KafkaListener(topics = "building", containerFactory = "kafkaListenerContainerFactory")
-    @KafkaListener(topics = "building")
+//    @KafkaListener(topics = "kafka-test")
     public void manualCommitOffset(ConsumerRecord<String, String> consumerRecord, Acknowledgment ack) {
 
 //        System.out.println("receive message: " + content);
-
+//
 //        if (null != list && !list.isEmpty()) {
 //            System.out.println("consumer records size is : " + list.size() + "partition" + list.get(0).partition());
 //            list.stream().forEach(record -> {
@@ -57,6 +50,20 @@ public class KafkaMessageConsumer {
         System.out.println("partion is: " + consumerRecord.partition());
         System.out.println("record header:" + consumerRecord.headers().toString());
         System.out.println("record key:" + consumerRecord.key() + " record value: " + consumerRecord.value() + "\n");
+        ack.acknowledge();
+    }
+
+    /**
+     * 采用批处理消息，批处理消息需要进行单独配置，需要考虑延时
+     * @param records 拉取的记录数
+     */
+    @KafkaListener(topics = "kafka-test", groupId = "batch-consumer1")
+    public void batchConsumerMessage(List<String> records, Acknowledgment ack) {
+        System.out.println("current thread:" + Thread.currentThread().getName());
+        System.out.println("pull records number: " + records.size());
+        records.stream().forEach(item -> {
+            System.out.println(" value: " + item);
+        });
         ack.acknowledge();
     }
 }
