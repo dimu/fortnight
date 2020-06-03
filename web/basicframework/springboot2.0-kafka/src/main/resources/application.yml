@@ -25,7 +25,7 @@ spring:
       enable-auto-commit: false
       max-poll-records: 1024
 #      fetch-min-size: 128
-      fetch-max-wait: 300
+      fetch-max-wait: 500
       client-id: dwx-pc
       auto-offset-reset: earliest
     listener:
@@ -35,3 +35,11 @@ spring:
       concurrency: 6
       # set batch pull, 配置batch拉的时候注意时长与最大记录数，需要折中考虑
       type: batch
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"

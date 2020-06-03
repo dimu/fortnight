@@ -61,9 +61,9 @@ public class KafkaMessageConsumer {
     public void batchConsumerMessage(List<String> records, Acknowledgment ack) {
         System.out.println("current thread:" + Thread.currentThread().getName());
         System.out.println("pull records number: " + records.size());
-        records.stream().forEach(item -> {
-            System.out.println(" value: " + item);
-        });
+//        records.stream().forEach(item -> {
+//            System.out.println(" value: " + item);
+//        });
         ack.acknowledge();
     }
 }
