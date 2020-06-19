@@ -40,7 +40,7 @@ public class KafkaMessageProducer {
     public void producePropertyMessage() {
 //        for (; ; ) {
             poolTaskExecutor.execute(() -> {
-                kafkaTempalte.send("tm-property", randomUser());
+                kafkaTempalte.send("tm-property", morkPropertyMessage());
                 System.out.println(Thread.currentThread().getName() + " producer count " + count++);
             });
 //        }
@@ -74,6 +74,10 @@ public class KafkaMessageProducer {
 //        return "{\"id\": \"123\",\"version\": \"1.0\",\"params\": {\"Power\": {\"value\": \"on\",\"time\": 1524448722123 },\"WF\": {\"value\": 23.6,\"time\": 1524448722123}}}";
 
 //        return "{\"inner\":{\"inPid\":25684,\"inDid\":32156,\"traceId\":\"134\",\"spanId\":\"1234\"},\"pid\":\"10086\",\"devName\":\"device003\",\"data\":{\"id\":\"123\",\"version\":\"1.0\",\"params\":{\"Power\":{\"value\":\"on\",\"time\":1524448722123},\"WF\":{\"value\":23.6,\"time\":1524448722123}}}}";
+    }
+
+    public String morkPropertyMessage() {
+        return "{\"inner\":{\"inPid\":25684,\"indid\":100002,\"traceId\":\"134\",\"spanId\":\"1234\"},\"pid\":\"10086\",\"devName\":\"device003\",\"type\":\"info\",\"messageType\":\"notify\",\"notifyType\":\"event\",\"data\":{\"id\":\"123\",\"version\":\"1.0\",\"params\":{\"voltage\":{\"value\":{\"Power\":\"on\",\"WF\":\"2\"},\"time\":1590108664000},\"location\":{\"value\":{\"lat\":34.1256,\"log\":130.152},\"time\":159010865400}}}}";
     }
 
     public String morkEventMessage() {

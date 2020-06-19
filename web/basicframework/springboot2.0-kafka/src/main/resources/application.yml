@@ -27,10 +27,11 @@ spring:
 #      fetch-min-size: 128
       fetch-max-wait: 500
       client-id: dwx-pc
-      auto-offset-reset: earliest
+      auto-offset-reset: latest
     listener:
       # 配置手动提交方式
       ack-mode: manual
+      t
       # 并发度
       concurrency: 6
       # set batch pull, 配置batch拉的时候注意时长与最大记录数，需要折中考虑

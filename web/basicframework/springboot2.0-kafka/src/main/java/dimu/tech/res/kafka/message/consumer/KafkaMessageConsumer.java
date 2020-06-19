@@ -5,11 +5,14 @@ import dimu.tech.res.kafka.mapper.UserMapper;
 import dimu.tech.res.kafka.model.User;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.listener.MessageListenerContainer;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -24,6 +27,9 @@ public class KafkaMessageConsumer {
 
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
 
 //    @KafkaListener(topics = "tm-setPropertiesReply")
     public void processTestMessage(String content) {
@@ -65,5 +71,13 @@ public class KafkaMessageConsumer {
 //            System.out.println(" value: " + item);
 //        });
         ack.acknowledge();
+    }
+
+    @KafkaListener(topics = "kafka-test", groupId = "consumer-rate")
+    public void controlConsumerRate(List<ConsumerRecord<String, String>> records, Acknowledgment ack) {
+        Collection<MessageListenerContainer> collection = kafkaListenerEndpointRegistry.getAllListenerContainers();
+        collection.forEach(messageListenerContainer -> {
+            messageListenerContainer.pause();
+        });
     }
 }
