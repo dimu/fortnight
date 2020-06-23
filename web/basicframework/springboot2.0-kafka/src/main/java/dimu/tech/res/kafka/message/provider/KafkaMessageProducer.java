@@ -47,12 +47,12 @@ public class KafkaMessageProducer {
     }
 
     public void produceEventMessage() {
-//        for (; ; ) {
+        for (; ; ) {
             poolTaskExecutor.execute(() -> {
                 kafkaTempalte.send("tm-event", morkEventMessage());
                 System.out.println(Thread.currentThread().getName() + " producer count " + count++);
             });
-//        }
+        }
     }
 
     public void produceCmdMessage() {

@@ -42,15 +42,12 @@ dependencies {
     
     implementation 'org.springframework.boot:spring-boot-starter'
 
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     
     implementation 'org.springframework.boot:spring-boot-starter-web'
     
     //logback as default logging
     implementation 'org.springframework.boot:spring-boot-starter-logging'
-    
-     //add spring AMQP & Rabbit MQ
-    implementation 'org.springframework.boot:spring-boot-starter-amqp'
     
     //add kafka dependency
     implementation 'org.springframework.kafka:spring-kafka'

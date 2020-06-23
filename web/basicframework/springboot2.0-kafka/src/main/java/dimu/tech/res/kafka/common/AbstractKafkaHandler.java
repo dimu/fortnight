@@ -25,7 +25,7 @@ public abstract  class AbstractKafkaHandler<T> {
     void processorHandler(T t) {
         try {
             process(t);
-        } catch (CaptureException e) {
+        } catch (CaptureException | NoSuchAlgorithmException e) {
             MessageListenerContainer messageListener = kafkaListenerEndpointRegistry.getListenerContainer(containerId);
             if (stopOrPause) {
                 messageListener.stop();
@@ -41,6 +41,8 @@ public abstract  class AbstractKafkaHandler<T> {
                         captureException.printStackTrace();
                     } catch (InterruptedException interruptedException) {
                         interruptedException.printStackTrace();
+                    } catch (NoSuchAlgorithmException noSuchAlgorithmException) {
+                        noSuchAlgorithmException.printStackTrace();
                     }
                 }
                 messageListener.resume();
