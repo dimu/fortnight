@@ -1,7 +1,7 @@
 package dimu.tech.res.spark.scala
 
-class ScalaTest {
+object ScalaTest {
   def main(args: Array[String]): Unit = {
-    println("scala test")
+    print("scala test")
   }
 }
