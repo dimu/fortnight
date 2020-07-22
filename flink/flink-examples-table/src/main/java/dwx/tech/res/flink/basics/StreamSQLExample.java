@@ -1,0 +1,220 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package dwx.tech.res.flink.basics;
+
+import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.table.api.EnvironmentSettings;
+import org.apache.flink.table.api.Table;
+import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+
+import java.util.Arrays;
+import java.util.Objects;
+
+import static org.apache.flink.table.api.Expressions.$;
+
+/**
+ * Simple example for demonstrating the use of SQL on a Stream Table in Java.
+ *
+ * <p>Usage: <code>StreamSQLExample --planner &lt;blink|flink&gt;</code><br>
+ *
+ * <p>This example shows how to:
+ *  - Convert DataStreams to Tables
+ *  - Register a Table under a name
+ *  - Run a StreamSQL query on the registered Table
+ *
+ */
+public class StreamSQLExample {
+
+	// *************************************************************************
+	//     PROGRAM
+	// *************************************************************************
+
+	public static void main(String[] args) throws Exception {
+
+		final ParameterTool params = ParameterTool.fromArgs(args);
+		String planner = params.has("planner") ? params.get("planner") : "blink";
+
+		// set up execution environment
+		StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+		StreamTableEnvironment tEnv;
+		if (Objects.equals(planner, "blink")) {
+			System.out.println("use blink planner engine");
+			// use blink planner in streaming mode
+			EnvironmentSettings settings = EnvironmentSettings.newInstance()
+					.inStreamingMode()
+					.useBlinkPlanner()
+					.build();
+			tEnv = StreamTableEnvironment.create(env, settings);
+		} else if (Objects.equals(planner, "flink")) {
+			// use flink planner in streaming mode
+			System.out.println("use flink planner engine");
+			EnvironmentSettings settings = EnvironmentSettings.newInstance()
+					.inStreamingMode()
+					.useOldPlanner()
+					.build();
+			tEnv = StreamTableEnvironment.create(env, settings);
+		} else {
+			System.err.println("The planner is incorrect. Please run 'StreamSQLExample --planner <planner>', " +
+				"where planner (it is either flink or blink, and the default is blink) indicates whether the " +
+				"example uses flink planner or blink planner.");
+			return;
+		}
+
+		tEnv.executeSql("CREATE TABLE dwx_product_source ("
+				+ "pid    VARCHAR,"
+				+ "idx    BIGINT,"
+				+ "sn     VARCHAR,"
+				+ "val    VARCHAR"
+				+ ") WITH ("
+				+ "'connector'     = 'kafka',"
+				+ "'topic'    = 'sinkTopic1',"
+				+ "'scan.startup.mode' = 'latest-offset',"
+				+ "'properties.group.id' = 'dwx-test2',"
+				+ "'properties.bootstrap.servers' = '10.12.31.148:9092,10.12.31.149:9092,10.12.31.150:9092',"
+				+ "'format' = 'json' "
+				+ ")");
+
+		tEnv.executeSql("CREATE TABLE dwx_product_sink ("
+				+ "idx    BIGINT,"
+				+ "val    VARCHAR,"
+				+ "pushId VARCHAR"
+				+ ") WITH ("
+				+ "'connector'     = 'kafka',"
+				+ "'topic'    = 'bdsDatapush2',"
+				+ "'scan.startup.mode' = 'latest-offset',"
+				+ "'properties.bootstrap.servers' = '10.12.31.148:9092,10.12.31.149:9092,10.12.31.150:9092',"
+				+ "'format' = 'json'"
+				+ ")");
+
+		tEnv.executeSql("INSERT INTO dwx_product_sink "
+				+ "SELECT "
+				+ " idx,"
+				+ " val,"
+				+ "'729756828799336448' as pushId "
+				+ " FROM dwx_product_source");
+//
+//		DataStream<Order> orderA = env.fromCollection(Arrays.asList(
+//			new Order(1L, "beer", 3),
+//			new Order(1L, "diaper", 4),
+//			new Order(3L, "rubber", 2)));
+//
+//		DataStream<Order> orderB = env.fromCollection(Arrays.asList(
+//			new Order(2L, "pen", 3),
+//			new Order(2L, "rubber", 3),
+//			new Order(4L, "beer", 1)));
+
+//		// convert DataStream to Table
+//		Table tableA = tEnv.fromDataStream(orderA, $("user"), $("product"), $("amount"));
+//		// register DataStream as Table
+//		tEnv.createTemporaryView("OrderB", orderB, $("user"), $("product"), $("amount"));
+//
+//		// union the two tables
+//		Table result = tEnv.sqlQuery("SELECT * FROM " + tableA + " WHERE amount > 2 UNION ALL " +
+//						"SELECT * FROM OrderB WHERE amount < 2");
+//
+//		tEnv.toAppendStream(result, Order.class).print();
+
+		// after the table program is converted to DataStream program,
+		// we must use `env.execute()` to submit the job.
+		System.out.println("print execution plan"+ env.getExecutionPlan());
+		env.execute("StreamSQLTest");
+	}
+
+	// *************************************************************************
+	//     USER DATA TYPES
+	// *************************************************************************
+
+	/**
+	 * Simple POJO.
+	 */
+	public static class Order {
+		public Long user;
+		public String product;
+		public int amount;
+
+		public Order() {
+		}
+
+		public Order(Long user, String product, int amount) {
+			this.user = user;
+			this.product = product;
+			this.amount = amount;
+		}
+
+		@Override
+		public String toString() {
+			return "Order{" +
+				"user=" + user +
+				", product='" + product + '\'' +
+				", amount=" + amount +
+				'}';
+		}
+	}
+
+	public static class ProductSource {
+		public String pid;
+		public Long idx;
+		public String sn;
+		public String val;
+
+		String getPid() {
+			return pid;
+		}
+
+		void setPid(String pid) {
+			this.pid = pid;
+		}
+
+		Long getIdx() {
+			return idx;
+		}
+
+		void setIdx(Long idx) {
+			this.idx = idx;
+		}
+
+		String getSn() {
+			return sn;
+		}
+
+		void setSn(String sn) {
+			this.sn = sn;
+		}
+
+		String getVal() {
+			return val;
+		}
+
+		void setVal(String val) {
+			this.val = val;
+		}
+
+		@Override
+		public String toString() {
+			return "ProductSource{" +
+					"pid='" + pid + '\'' +
+					", idx=" + idx +
+					", sn='" + sn + '\'' +
+					", val='" + val + '\'' +
+					'}';
+		}
+	}
+}
