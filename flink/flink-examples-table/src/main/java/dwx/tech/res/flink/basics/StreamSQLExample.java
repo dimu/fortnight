@@ -23,6 +23,7 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
+import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 import java.util.Arrays;
@@ -104,12 +105,23 @@ public class StreamSQLExample {
 				+ "'format' = 'json'"
 				+ ")");
 
-		tEnv.executeSql("INSERT INTO dwx_product_sink "
-				+ "SELECT "
+//		tEnv.executeSql("INSERT INTO dwx_product_sink "
+//				+ "SELECT "
+//				+ " idx,"
+//				+ " val,"
+//				+ "'729756828799336448' as pushId "
+//				+ " FROM dwx_product_source");
+		Table result = tEnv.sqlQuery("SELECT "
 				+ " idx,"
 				+ " val,"
 				+ "'729756828799336448' as pushId "
 				+ " FROM dwx_product_source");
+		TableResult tableResult = result.executeInsert("dwx_product_sink", true);
+		tableResult.print();
+
+		//convert datastream to table
+//		Table resourceTable = tEnv.fromDataStream("dwx_product_source");
+//		Table resourceTable = tEnv.from("dwx_product_source");
 //
 //		DataStream<Order> orderA = env.fromCollection(Arrays.asList(
 //			new Order(1L, "beer", 3),
@@ -134,7 +146,7 @@ public class StreamSQLExample {
 
 		// after the table program is converted to DataStream program,
 		// we must use `env.execute()` to submit the job.
-		System.out.println("print execution plan"+ env.getExecutionPlan());
+		System.out.println("print execution plan " + env.getExecutionPlan());
 		env.execute("StreamSQLTest");
 	}
 
