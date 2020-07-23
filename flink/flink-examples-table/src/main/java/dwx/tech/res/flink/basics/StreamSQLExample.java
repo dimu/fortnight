@@ -79,7 +79,7 @@ public class StreamSQLExample {
 			return;
 		}
 
-		tEnv.executeSql("CREATE TABLE dwx_product_source ("
+		TableResult sourceTable = tEnv.executeSql("CREATE TABLE dwx_product_source ("
 				+ "pid    VARCHAR,"
 				+ "idx    BIGINT,"
 				+ "sn     VARCHAR,"
@@ -92,6 +92,7 @@ public class StreamSQLExample {
 				+ "'properties.bootstrap.servers' = '10.12.31.148:9092,10.12.31.149:9092,10.12.31.150:9092',"
 				+ "'format' = 'json' "
 				+ ")");
+		System.out.println(sourceTable.getTableSchema().toString());
 
 		tEnv.executeSql("CREATE TABLE dwx_product_sink ("
 				+ "idx    BIGINT,"
@@ -105,19 +106,35 @@ public class StreamSQLExample {
 				+ "'format' = 'json'"
 				+ ")");
 
-//		tEnv.executeSql("INSERT INTO dwx_product_sink "
-//				+ "SELECT "
-//				+ " idx,"
-//				+ " val,"
-//				+ "'729756828799336448' as pushId "
-//				+ " FROM dwx_product_source");
-		Table result = tEnv.sqlQuery("SELECT "
+		Table resourceTable = tEnv.from("dwx_product_source");
+
+		/**
+		 * insert语句执行后，会立即提交job，所以后面不用再提交了
+		 */
+		TableResult sinR = tEnv.executeSql("INSERT INTO dwx_product_sink "
+				+ "SELECT "
 				+ " idx,"
 				+ " val,"
 				+ "'729756828799336448' as pushId "
 				+ " FROM dwx_product_source");
-		TableResult tableResult = result.executeInsert("dwx_product_sink", true);
-		tableResult.print();
+
+		System.out.println(env.getExecutionPlan());
+
+//		tEnv.execute("table job!");
+//		System.out.println("sink print!");
+//		sinR.print();
+
+//		tEnv.toAppendStream(dwx_product_sink., ProductSink.class);
+
+//		Table result = tEnv.sqlQuery("SELECT "
+//				+ " idx,"
+//				+ " val,"
+//				+ "'729756828799336448' as pushId "
+//				+ " FROM dwx_product_source");
+//
+//		Table sinkTable = tEnv.from("dwx_product_sink");
+//		TableResult tableResult = result.executeInsert("sinkTable", true);
+//		tableResult.print();
 
 		//convert datastream to table
 //		Table resourceTable = tEnv.fromDataStream("dwx_product_source");
@@ -146,8 +163,8 @@ public class StreamSQLExample {
 
 		// after the table program is converted to DataStream program,
 		// we must use `env.execute()` to submit the job.
-		System.out.println("print execution plan " + env.getExecutionPlan());
-		env.execute("StreamSQLTest");
+//		System.out.println("print execution plan " + tEnv.ge());
+//		env.execute("StreamSQLTest");
 	}
 
 	// *************************************************************************
@@ -227,6 +244,27 @@ public class StreamSQLExample {
 					", sn='" + sn + '\'' +
 					", val='" + val + '\'' +
 					'}';
+		}
+	}
+
+	public static class ProductSink{
+		public Long idx;
+		public String val;
+
+		Long getIdx() {
+			return idx;
+		}
+
+		void setIdx(Long idx) {
+			this.idx = idx;
+		}
+
+		String getVal() {
+			return val;
+		}
+
+		void setVal(String val) {
+			this.val = val;
 		}
 	}
 }
