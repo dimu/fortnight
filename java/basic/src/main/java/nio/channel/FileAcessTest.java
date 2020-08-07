@@ -10,6 +10,7 @@ import java.io.RandomAccessFile;
 import java.net.URI;
 import java.net.URL;
 import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 
 /**
  * file channel 相关测试
@@ -88,5 +89,24 @@ public class FileAcessTest {
     @Test
     public void fileLockTest() {
 
+    }
+
+    /**
+     * what will happen if you don't release the file lock
+     * @throws IOException
+     */
+    @Test
+    public void notReleaseFileLock() throws IOException {
+        RandomAccessFile randomAccessFile = new RandomAccessFile("D:\\test.txt", "rw");
+
+        FileChannel fileChannel = randomAccessFile.getChannel();
+
+        FileLock lock = fileChannel.lock();
+
+        System.out.println(lock.isShared());
+
+        while(true) {
+            //loop forever, don't release the file lock
+        }
     }
 }
