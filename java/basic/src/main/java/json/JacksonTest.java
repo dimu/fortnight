@@ -19,7 +19,7 @@ public class JacksonTest {
         /**
          * 如果字段不是实体类的子集，会报错
          */
-        String source = "{\"age\":12, \"other\": \"xx\"}";
+        String source = "{\"age\":12, \"name\": \"xx\", \"map\": 12.36}";
         ObjectMapper om = new ObjectMapper();
         TestVO  ob = om.readValue(source, TestVO.class);
         System.out.println(ob.getAge());

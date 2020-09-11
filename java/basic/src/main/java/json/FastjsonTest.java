@@ -1,6 +1,8 @@
 package json;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.Feature;
 import org.junit.Test;
 
 /**
@@ -17,8 +19,14 @@ public class FastjsonTest {
     @Test
     public void parseJsonString() {
 //        String source = "{\"age\":12}";
-        String source = "{\"age\":12, \"other\": \"xx\"}";
-        TestVO  ob = JSONObject.parseObject(source, TestVO.class);
+        /**
+         * fastjson自动double类型的数据转化为BigDecimal，而bigdecimal被存储至mongodb会变成string
+         */
+
+        int disableDecimalFeature = JSON.DEFAULT_PARSER_FEATURE & ~Feature.UseBigDecimal.getMask();
+
+        String source = "{\"age\":12, \"other\": \"xx\", \"map\":16.54}";
+        TestVO  ob = JSONObject.parseObject(source, TestVO.class, disableDecimalFeature);
         System.out.println(ob.getAge());
         System.out.println(null == ob.getMap());
         System.out.println(ob.getMap());
