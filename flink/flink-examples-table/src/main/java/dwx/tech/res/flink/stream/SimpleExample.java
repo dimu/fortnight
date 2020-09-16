@@ -33,7 +33,7 @@ public class SimpleExample {
 		 */
 		adults.print();
 
-		env.execute();
+		env.execute("simple example job");
 	}
 
 	public static class Person {

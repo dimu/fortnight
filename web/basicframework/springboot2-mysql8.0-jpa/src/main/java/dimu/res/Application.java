@@ -1,7 +1,7 @@
 package dimu.res;
 
 import dimu.res.message.provider.KafkaMessageProducer;
-import dimu.res.message.provider.RegisterMessageProvider;
+
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.Resource;
-import java.util.concurrent.TimeUnit;
 
 /**
  * springboot2.0 mybatis integration
@@ -25,9 +24,7 @@ public class Application implements ApplicationRunner{
     //    @Resource
 //    private StringRedisTemplate stringRedisTemplate;
     
-    @Resource 
-    private RegisterMessageProvider messageProvider;
-    
+
     @Resource 
     private KafkaMessageProducer kafkaMessageProducer;
     
@@ -37,11 +34,11 @@ public class Application implements ApplicationRunner{
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        stringRedisTemplate.opsForValue().set("name", "dimu", 60, TimeUnit.SECONDS);
+//        stringRedisTemplate.opsForValue().set("name", "dimu", 60, TimeUnit.SECONDS);
         
-        messageProvider.produceMessage();
+//        messageProvider.produceMessage();
         
-        kafkaMessageProducer.produceMessage();
+//        kafkaMessageProducer.produceMessage();
         
 //        RedisLockTemplate<String> redisLockTemplate = new RedisLockTemplate<>(jedisPool);
 //        ExecutorService executor = Executors.newFixedThreadPool(10);

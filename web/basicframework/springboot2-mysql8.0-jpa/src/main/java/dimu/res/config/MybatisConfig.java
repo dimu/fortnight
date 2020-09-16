@@ -1,4 +1,4 @@
-package dimu.ssm.config;
+package dimu.res.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;

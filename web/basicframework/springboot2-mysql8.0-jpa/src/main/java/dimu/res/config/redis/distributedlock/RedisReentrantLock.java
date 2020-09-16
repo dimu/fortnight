@@ -1,4 +1,4 @@
-package dimu.ssm.config.redis.distributedlock;
+package dimu.res.config.redis.distributedlock;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

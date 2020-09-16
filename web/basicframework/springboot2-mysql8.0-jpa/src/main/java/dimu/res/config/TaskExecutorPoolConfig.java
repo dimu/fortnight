@@ -1,4 +1,4 @@
-package dimu.ssm.config;
+package dimu.res.config;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;

@@ -63,7 +63,7 @@ public class KafkaMessageConsumer {
      * 采用批处理消息，批处理消息需要进行单独配置，需要考虑延时
      * @param records 拉取的记录数
      */
-//    @KafkaListener(topics = "kafka-test", groupId = "batch-consumer1")
+    @KafkaListener(topics = "tm-event", groupId = "batch-consumer1")
     public void batchConsumerMessage(List<String> records, Acknowledgment ack) {
         System.out.println("current thread:" + Thread.currentThread().getName());
         System.out.println("pull records number: " + records.size());

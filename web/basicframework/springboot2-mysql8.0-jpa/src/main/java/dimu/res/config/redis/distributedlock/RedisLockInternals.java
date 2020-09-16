@@ -1,4 +1,4 @@
-package dimu.ssm.config.redis.distributedlock;
+package dimu.res.config.redis.distributedlock;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

@@ -1,4 +1,4 @@
-package dimu.ssm.config.redis;
+package dimu.res.config.redis;
 
 import javax.annotation.Resource;
 
@@ -30,16 +30,16 @@ public class RedisConfig {
      * key-value all String type
      * @return RedisTemplate<String,String> bean
      */
-    @Bean
-    public RedisTemplate<String, String> stringRedisTemplate() {
-        RedisTemplate<String, String> tempalte = new RedisTemplate<>();
-        
-        RedisSerializer<String> serializer = new StringRedisSerializer();
-        tempalte.setKeySerializer(serializer);
-        tempalte.setValueSerializer(serializer);
-        
-        return tempalte;
-    }
+//    @Bean
+//    public RedisTemplate<String, String> stringRedisTemplate() {
+//        RedisTemplate<String, String> tempalte = new RedisTemplate<>();
+//
+//        RedisSerializer<String> serializer = new StringRedisSerializer();
+//        tempalte.setKeySerializer(serializer);
+//        tempalte.setValueSerializer(serializer);
+//
+//        return tempalte;
+//    }
     
     @Bean
     @ConditionalOnClass(JedisPool.class)

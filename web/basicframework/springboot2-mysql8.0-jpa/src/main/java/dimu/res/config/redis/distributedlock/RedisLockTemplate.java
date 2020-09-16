@@ -1,4 +1,4 @@
-package dimu.ssm.config.redis.distributedlock;
+package dimu.res.config.redis.distributedlock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

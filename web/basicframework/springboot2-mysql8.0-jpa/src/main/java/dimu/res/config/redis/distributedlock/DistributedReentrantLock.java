@@ -1,4 +1,4 @@
-package dimu.ssm.config.redis.distributedlock;
+package dimu.res.config.redis.distributedlock;
 
 /**
  * 分布式可重入锁接口

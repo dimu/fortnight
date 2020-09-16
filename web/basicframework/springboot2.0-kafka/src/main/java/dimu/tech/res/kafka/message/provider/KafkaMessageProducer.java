@@ -64,6 +64,14 @@ public class KafkaMessageProducer {
 //        }
     }
 
+    public void procduceServiceMessage() {
+        String str = "{\"inner\":{\"ipid\":10228,\"idid\":91822,\"traceId\":\"123456\",\"spanId\":\"123456\"},\"messageType\":\"call\",\"callType\":\"async\",\"pid\":\"9UaW90QeSJ\",\"uid\":\"38088\",\"devName\":\"test_device\",\"request\":{\"id\":\"49\",\"version\":\"1.0\",\"params\":{\"identifier\":\"service_test\",\"input\":{\"param_identifier1\":[0,3,10]}}},\"response\":null,\"stime\":1599639320397,\"rtime\":null}";
+        poolTaskExecutor.execute(() -> {
+            kafkaTempalte.send("tm-service", str);
+            System.out.println(Thread.currentThread().getName() + " producer count " + count++);
+        });
+    }
+
     public String randomUser() {
         User user = new User();
         user.setAccount(UUID.randomUUID().toString().replace("-", ""));
