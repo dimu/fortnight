@@ -66,10 +66,9 @@ public class ExcelExportHelper {
 
 	}
 
-	public String importExcel(HttpServletRequest request) {
+	public String importExcel(InputStream inputStream) {
 		ExcelReader excelReader = null;
 		try {
-			InputStream inputStream = getInputStream(request);
 			excelReader = EasyExcel.read(inputStream, LgUser.class, new ExcelDataSaveListener(lgUserMapper)).build();
 			ReadSheet readSheet = EasyExcel.readSheet(0).build();
 			excelReader.read(readSheet);
@@ -82,9 +81,6 @@ public class ExcelExportHelper {
 		return "ok";
 	}
 
-	public InputStream getInputStream(HttpServletRequest request) {
-		return null;
-	}
 
 	public OutputStream getOutputStream(HttpServletResponse response) throws IOException {
 		try {

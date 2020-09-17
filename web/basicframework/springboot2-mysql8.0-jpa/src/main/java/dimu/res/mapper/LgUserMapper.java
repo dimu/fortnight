@@ -33,5 +33,9 @@ public interface LgUserMapper {
 			"</foreach>",
 			"</script>"
 	})
-	void updateRealName(List<LgUser> lgUserList);
+	void updateBatchRealName(List<LgUser> lgUserList);
+
+
+	@Update({"UPDATE inner_user SET  real_name=#{realName} WHERE id=#{id}"})
+	void updateSingleRealName(LgUser lgUser);
 }

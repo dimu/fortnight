@@ -7,6 +7,7 @@ import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import dimu.res.mapper.LgUserMapper;
 import dimu.res.model.LgUser;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * excel解析监听器
@@ -31,6 +32,11 @@ public class ExcelDataSaveListener extends AnalysisEventListener<LgUser> {
 
 	@Override
 	public void doAfterAllAnalysed(AnalysisContext context) {
-		map
+		System.out.printf("import excel total count： %s", list.size());
+		list.forEach(item -> {
+			if (item.getRealName() !=null && !item.getRealName().isEmpty()) {
+				lgUserMapper.updateSingleRealName(item);
+			}
+		});
 	}
 }
