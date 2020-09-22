@@ -1,5 +1,6 @@
 package dimu.res;
 
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import dimu.res.message.provider.KafkaMessageProducer;
 
 import org.springframework.boot.ApplicationArguments;
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
  *
  */
 @SpringBootApplication
+@EnableEncryptableProperties
 public class Application implements ApplicationRunner{
 
     @Resource 
