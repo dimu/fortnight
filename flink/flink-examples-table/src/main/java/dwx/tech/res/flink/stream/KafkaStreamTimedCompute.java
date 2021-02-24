@@ -1,6 +1,7 @@
 package dwx.tech.res.flink.stream;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Properties;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -34,7 +35,7 @@ public class KafkaStreamTimedCompute {
 
 		//ste2: add resource
 		Properties properties = new Properties();
-		properties.setProperty("bootstrap.servers", "10.12.31.148:9092");
+		properties.setProperty("bootstrap.servers", "10.12.31.22:9092");
 		properties.setProperty("group.id", "flink-test");
 
 //		DataStream<String> dataStreamSource = sEnv.addSource(new FlinkKafkaConsumer<String>("kafka-test", (KafkaDeserializationSchema)new JSONKeyValueDeserializationSchema(false), properties));
@@ -60,8 +61,10 @@ public class KafkaStreamTimedCompute {
 				KafkaStream.Device device  = objectMapper.readValue(value, KafkaStream.Device.class);
 				return device.getDevKey() + ":" + device.getProductId();
 			}
-		}).window(TumblingEventTimeWindows.of(Time.minutes(1)))
+		}).window(TumblingEventTimeWindows.of(Time.minutes(5)))
 				.process(new MyWastefulMax()).print();
+
+
 
 
 //		WindowedStream<Device, String, TimeWindow> windowedStream= deviceDataStream.keyBy(device -> device.getDevKey())
@@ -125,7 +128,7 @@ public class KafkaStreamTimedCompute {
 
 	public static class MyWastefulMax extends ProcessWindowFunction<
 			String,                  // input type
-			Tuple3<String, Long, Integer>,  // output type
+			Tuple3<String, Date, Integer>,  // output type
 			String,                         // key type
 			TimeWindow> {                   // window type
 
@@ -134,14 +137,14 @@ public class KafkaStreamTimedCompute {
 				String key,
 				Context context,
 				Iterable<String> events,
-				Collector<Tuple3<String, Long, Integer>> out) {
+				Collector<Tuple3<String, Date, Integer>> out) {
 			System.out.println("step into process");
 			int count = 0;
 			for (String event : events) {
 
 				count++;
 			}
-			out.collect(Tuple3.of(key, context.window().getEnd(), count));
+			out.collect(Tuple3.of(key, new Date(context.window().getEnd()), count));
 		}
 	}
 }
