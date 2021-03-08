@@ -11,11 +11,13 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<scala.binary.version>2.12</scala.binary.version>
-		<flink.version>1.11.0</flink.version>
+		<scala.binary.version>2.11</scala.binary.version>
+<!--		<flink.version>1.11.0</flink.version>-->
+		<flink.version>1.12.0</flink.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+		<lombok.version>1.18.12</lombok.version>
 	</properties>
 
 	<dependencies>
@@ -71,195 +73,224 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.11.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
-<!--			<plugin>-->
-<!--				<groupId>org.apache.maven.plugins</groupId>-->
-<!--				<artifactId>maven-assembly-plugin</artifactId>-->
-<!--				<version>3.1.0</version>-->
-<!--				<configuration>-->
-<!--					<archive>-->
-<!--						<manifest>-->
-<!--							<mainClass>dwx.tech.res.flink.basics.StreamSQLExample</mainClass>-->
-<!--						</manifest>-->
-<!--					</archive>-->
-<!--					<descriptorRefs>-->
-<!--						<descriptorRef>jar-with-dependencies</descriptorRef>-->
-<!--					</descriptorRefs>-->
-<!--				</configuration>-->
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<id>make-assembly</id>-->
-<!--						<phase>package</phase>-->
-<!--						<goals>-->
-<!--							<goal>single</goal>-->
-<!--						</goals>-->
-<!--					</execution>-->
-<!--				</executions>-->
-<!--			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>dwx.tech.res.flink.stream.ConvertParamTest</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
 				<executions>
-
 					<execution>
-						<id>StreamSQLExample</id>
+						<id>make-assembly</id>
 						<phase>package</phase>
 						<goals>
-							<goal>jar</goal>
+							<goal>single</goal>
 						</goals>
-
-						<configuration>
-							<classifier>StreamSQLExample</classifier>
-
-							<archive>
-								<manifestEntries>
-									<program-class>dwx.tech.res.flink.basics.StreamSQLExample</program-class>
-								</manifestEntries>
-							</archive>
-
-<!--							<includes>-->
-<!--								<include>dwx.tech.res.flink.basics.StreamSQLExample</include>-->
-<!--							</includes>-->
-						</configuration>
 					</execution>
-
-<!--					<execution>-->
-<!--						<id>StreamWindowSQLExample</id>-->
-<!--						<phase>package</phase>-->
-<!--						<goals>-->
-<!--							<goal>jar</goal>-->
-<!--						</goals>-->
-
-<!--						<configuration>-->
-<!--							<classifier>StreamWindowSQLExample</classifier>-->
-
-<!--							<archive>-->
-<!--								<manifestEntries>-->
-<!--									<program-class>org.apache.flink.table.examples.java.basics.StreamWindowSQLExample</program-class>-->
-<!--								</manifestEntries>-->
-<!--							</archive>-->
-
-<!--							<includes>-->
-<!--								<include>org/apache/flink/table/examples/java/basics/StreamWindowSQLExample*</include>-->
-<!--							</includes>-->
-<!--						</configuration>-->
-<!--					</execution>-->
-
-<!--					<execution>-->
-<!--						<id>WordCountSQL</id>-->
-<!--						<phase>package</phase>-->
-<!--						<goals>-->
-<!--							<goal>jar</goal>-->
-<!--						</goals>-->
-
-<!--						<configuration>-->
-<!--							<classifier>WordCountSQL</classifier>-->
-
-<!--							<archive>-->
-<!--								<manifestEntries>-->
-<!--									<program-class>org.apache.flink.table.examples.java.basics.WordCountSQL</program-class>-->
-<!--								</manifestEntries>-->
-<!--							</archive>-->
-
-<!--							<includes>-->
-<!--								<include>org/apache/flink/table/examples/java/basics/WordCountSQL*</include>-->
-<!--							</includes>-->
-<!--						</configuration>-->
-<!--					</execution>-->
-
-<!--					<execution>-->
-<!--						<id>WordCountTable</id>-->
-<!--						<phase>package</phase>-->
-<!--						<goals>-->
-<!--							<goal>jar</goal>-->
-<!--						</goals>-->
-
-<!--						<configuration>-->
-<!--							<classifier>WordCountTable</classifier>-->
-
-<!--							<archive>-->
-<!--								<manifestEntries>-->
-<!--									<program-class>org.apache.flink.table.examples.java.basics.WordCountTable</program-class>-->
-<!--								</manifestEntries>-->
-<!--							</archive>-->
-
-<!--							<includes>-->
-<!--								<include>org/apache/flink/table/examples/java/basics/WordCountTable*</include>-->
-<!--							</includes>-->
-<!--						</configuration>-->
-<!--					</execution>-->
-
-<!--					<execution>-->
-<!--						<id>ChangelogSocketExample</id>-->
-<!--						<phase>package</phase>-->
-<!--						<goals>-->
-<!--							<goal>jar</goal>-->
-<!--						</goals>-->
-
-<!--						<configuration>-->
-<!--							<classifier>ChangelogSocketExample</classifier>-->
-
-<!--							<archive>-->
-<!--								<manifestEntries>-->
-<!--									<program-class>org.apache.flink.table.examples.java.connectors.ChangelogSocketExample</program-class>-->
-<!--								</manifestEntries>-->
-<!--							</archive>-->
-
-<!--							<includes>-->
-<!--								<include>org/apache/flink/table/examples/java/connectors/*</include>-->
-<!--								<include>**/META-INF/services/*</include>-->
-<!--							</includes>-->
-<!--						</configuration>-->
-<!--					</execution>-->
-
-<!--					<execution>-->
-<!--						<id>StreamTableExample</id>-->
-<!--						<phase>package</phase>-->
-<!--						<goals>-->
-<!--							<goal>jar</goal>-->
-<!--						</goals>-->
-
-<!--						<configuration>-->
-<!--							<classifier>StreamTableExample</classifier>-->
-
-<!--							<archive>-->
-<!--								<manifestEntries>-->
-<!--									<program-class>org.apache.flink.table.examples.scala.StreamTableExample</program-class>-->
-<!--								</manifestEntries>-->
-<!--							</archive>-->
-
-<!--							<includes>-->
-<!--								<include>org/apache/flink/table/examples/scala/StreamTableExample*</include>-->
-<!--							</includes>-->
-<!--						</configuration>-->
-<!--					</execution>-->
-
-<!--					<execution>-->
-<!--						<id>TPCHQuery3Table</id>-->
-<!--						<phase>package</phase>-->
-<!--						<goals>-->
-<!--							<goal>jar</goal>-->
-<!--						</goals>-->
-
-<!--						<configuration>-->
-<!--							<classifier>TPCHQuery3Table</classifier>-->
-
-<!--							<archive>-->
-<!--								<manifestEntries>-->
-<!--									<program-class>org.apache.flink.table.examples.scala.TPCHQuery3Table</program-class>-->
-<!--								</manifestEntries>-->
-<!--							</archive>-->
-
-<!--							<includes>-->
-<!--								<include>org/apache/flink/table/examples/scala/TPCHQuery3Table*</include>-->
-<!--							</includes>-->
-<!--						</configuration>-->
-<!--					</execution>-->
 				</executions>
 			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-jar-plugin</artifactId>-->
+<!--				<executions>-->
+
+<!--&lt;!&ndash;					<execution>&ndash;&gt;-->
+<!--&lt;!&ndash;						<id>StreamSQLExample</id>&ndash;&gt;-->
+<!--&lt;!&ndash;						<phase>package</phase>&ndash;&gt;-->
+<!--&lt;!&ndash;						<goals>&ndash;&gt;-->
+<!--&lt;!&ndash;							<goal>jar</goal>&ndash;&gt;-->
+<!--&lt;!&ndash;						</goals>&ndash;&gt;-->
+
+<!--&lt;!&ndash;						<configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;							<classifier>StreamSQLExample</classifier>&ndash;&gt;-->
+
+<!--&lt;!&ndash;							<archive>&ndash;&gt;-->
+<!--&lt;!&ndash;								<manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;									<program-class>dwx.tech.res.flink.basics.StreamSQLExample</program-class>&ndash;&gt;-->
+<!--&lt;!&ndash;								</manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;							</archive>&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;							<includes>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;								<include>dwx.tech.res.flink.basics.StreamSQLExample</include>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;							</includes>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;						</configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;					</execution>&ndash;&gt;-->
+
+<!--					<execution>-->
+<!--						<id>StreamSQLExample</id>-->
+<!--						<phase>package</phase>-->
+<!--						<goals>-->
+<!--							<goal>jar</goal>-->
+<!--						</goals>-->
+
+<!--						<configuration>-->
+<!--							<classifier>ConvertParamTest</classifier>-->
+
+<!--							<archive>-->
+<!--								<manifestEntries>-->
+<!--									<program-class>dwx.tech.res.flink.stream.ConvertParamTest</program-class>-->
+<!--								</manifestEntries>-->
+<!--							</archive>-->
+
+<!--							&lt;!&ndash;							<includes>&ndash;&gt;-->
+<!--							&lt;!&ndash;								<include>dwx.tech.res.flink.basics.StreamSQLExample</include>&ndash;&gt;-->
+<!--							&lt;!&ndash;							</includes>&ndash;&gt;-->
+<!--						</configuration>-->
+<!--					</execution>-->
+
+<!--&lt;!&ndash;					<execution>&ndash;&gt;-->
+<!--&lt;!&ndash;						<id>StreamWindowSQLExample</id>&ndash;&gt;-->
+<!--&lt;!&ndash;						<phase>package</phase>&ndash;&gt;-->
+<!--&lt;!&ndash;						<goals>&ndash;&gt;-->
+<!--&lt;!&ndash;							<goal>jar</goal>&ndash;&gt;-->
+<!--&lt;!&ndash;						</goals>&ndash;&gt;-->
+
+<!--&lt;!&ndash;						<configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;							<classifier>StreamWindowSQLExample</classifier>&ndash;&gt;-->
+
+<!--&lt;!&ndash;							<archive>&ndash;&gt;-->
+<!--&lt;!&ndash;								<manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;									<program-class>org.apache.flink.table.examples.java.basics.StreamWindowSQLExample</program-class>&ndash;&gt;-->
+<!--&lt;!&ndash;								</manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;							</archive>&ndash;&gt;-->
+
+<!--&lt;!&ndash;							<includes>&ndash;&gt;-->
+<!--&lt;!&ndash;								<include>org/apache/flink/table/examples/java/basics/StreamWindowSQLExample*</include>&ndash;&gt;-->
+<!--&lt;!&ndash;							</includes>&ndash;&gt;-->
+<!--&lt;!&ndash;						</configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;					</execution>&ndash;&gt;-->
+
+<!--&lt;!&ndash;					<execution>&ndash;&gt;-->
+<!--&lt;!&ndash;						<id>WordCountSQL</id>&ndash;&gt;-->
+<!--&lt;!&ndash;						<phase>package</phase>&ndash;&gt;-->
+<!--&lt;!&ndash;						<goals>&ndash;&gt;-->
+<!--&lt;!&ndash;							<goal>jar</goal>&ndash;&gt;-->
+<!--&lt;!&ndash;						</goals>&ndash;&gt;-->
+
+<!--&lt;!&ndash;						<configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;							<classifier>WordCountSQL</classifier>&ndash;&gt;-->
+
+<!--&lt;!&ndash;							<archive>&ndash;&gt;-->
+<!--&lt;!&ndash;								<manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;									<program-class>org.apache.flink.table.examples.java.basics.WordCountSQL</program-class>&ndash;&gt;-->
+<!--&lt;!&ndash;								</manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;							</archive>&ndash;&gt;-->
+
+<!--&lt;!&ndash;							<includes>&ndash;&gt;-->
+<!--&lt;!&ndash;								<include>org/apache/flink/table/examples/java/basics/WordCountSQL*</include>&ndash;&gt;-->
+<!--&lt;!&ndash;							</includes>&ndash;&gt;-->
+<!--&lt;!&ndash;						</configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;					</execution>&ndash;&gt;-->
+
+<!--&lt;!&ndash;					<execution>&ndash;&gt;-->
+<!--&lt;!&ndash;						<id>WordCountTable</id>&ndash;&gt;-->
+<!--&lt;!&ndash;						<phase>package</phase>&ndash;&gt;-->
+<!--&lt;!&ndash;						<goals>&ndash;&gt;-->
+<!--&lt;!&ndash;							<goal>jar</goal>&ndash;&gt;-->
+<!--&lt;!&ndash;						</goals>&ndash;&gt;-->
+
+<!--&lt;!&ndash;						<configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;							<classifier>WordCountTable</classifier>&ndash;&gt;-->
+
+<!--&lt;!&ndash;							<archive>&ndash;&gt;-->
+<!--&lt;!&ndash;								<manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;									<program-class>org.apache.flink.table.examples.java.basics.WordCountTable</program-class>&ndash;&gt;-->
+<!--&lt;!&ndash;								</manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;							</archive>&ndash;&gt;-->
+
+<!--&lt;!&ndash;							<includes>&ndash;&gt;-->
+<!--&lt;!&ndash;								<include>org/apache/flink/table/examples/java/basics/WordCountTable*</include>&ndash;&gt;-->
+<!--&lt;!&ndash;							</includes>&ndash;&gt;-->
+<!--&lt;!&ndash;						</configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;					</execution>&ndash;&gt;-->
+
+<!--&lt;!&ndash;					<execution>&ndash;&gt;-->
+<!--&lt;!&ndash;						<id>ChangelogSocketExample</id>&ndash;&gt;-->
+<!--&lt;!&ndash;						<phase>package</phase>&ndash;&gt;-->
+<!--&lt;!&ndash;						<goals>&ndash;&gt;-->
+<!--&lt;!&ndash;							<goal>jar</goal>&ndash;&gt;-->
+<!--&lt;!&ndash;						</goals>&ndash;&gt;-->
+
+<!--&lt;!&ndash;						<configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;							<classifier>ChangelogSocketExample</classifier>&ndash;&gt;-->
+
+<!--&lt;!&ndash;							<archive>&ndash;&gt;-->
+<!--&lt;!&ndash;								<manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;									<program-class>org.apache.flink.table.examples.java.connectors.ChangelogSocketExample</program-class>&ndash;&gt;-->
+<!--&lt;!&ndash;								</manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;							</archive>&ndash;&gt;-->
+
+<!--&lt;!&ndash;							<includes>&ndash;&gt;-->
+<!--&lt;!&ndash;								<include>org/apache/flink/table/examples/java/connectors/*</include>&ndash;&gt;-->
+<!--&lt;!&ndash;								<include>**/META-INF/services/*</include>&ndash;&gt;-->
+<!--&lt;!&ndash;							</includes>&ndash;&gt;-->
+<!--&lt;!&ndash;						</configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;					</execution>&ndash;&gt;-->
+
+<!--&lt;!&ndash;					<execution>&ndash;&gt;-->
+<!--&lt;!&ndash;						<id>StreamTableExample</id>&ndash;&gt;-->
+<!--&lt;!&ndash;						<phase>package</phase>&ndash;&gt;-->
+<!--&lt;!&ndash;						<goals>&ndash;&gt;-->
+<!--&lt;!&ndash;							<goal>jar</goal>&ndash;&gt;-->
+<!--&lt;!&ndash;						</goals>&ndash;&gt;-->
+
+<!--&lt;!&ndash;						<configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;							<classifier>StreamTableExample</classifier>&ndash;&gt;-->
+
+<!--&lt;!&ndash;							<archive>&ndash;&gt;-->
+<!--&lt;!&ndash;								<manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;									<program-class>org.apache.flink.table.examples.scala.StreamTableExample</program-class>&ndash;&gt;-->
+<!--&lt;!&ndash;								</manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;							</archive>&ndash;&gt;-->
+
+<!--&lt;!&ndash;							<includes>&ndash;&gt;-->
+<!--&lt;!&ndash;								<include>org/apache/flink/table/examples/scala/StreamTableExample*</include>&ndash;&gt;-->
+<!--&lt;!&ndash;							</includes>&ndash;&gt;-->
+<!--&lt;!&ndash;						</configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;					</execution>&ndash;&gt;-->
+
+<!--&lt;!&ndash;					<execution>&ndash;&gt;-->
+<!--&lt;!&ndash;						<id>TPCHQuery3Table</id>&ndash;&gt;-->
+<!--&lt;!&ndash;						<phase>package</phase>&ndash;&gt;-->
+<!--&lt;!&ndash;						<goals>&ndash;&gt;-->
+<!--&lt;!&ndash;							<goal>jar</goal>&ndash;&gt;-->
+<!--&lt;!&ndash;						</goals>&ndash;&gt;-->
+
+<!--&lt;!&ndash;						<configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;							<classifier>TPCHQuery3Table</classifier>&ndash;&gt;-->
+
+<!--&lt;!&ndash;							<archive>&ndash;&gt;-->
+<!--&lt;!&ndash;								<manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;									<program-class>org.apache.flink.table.examples.scala.TPCHQuery3Table</program-class>&ndash;&gt;-->
+<!--&lt;!&ndash;								</manifestEntries>&ndash;&gt;-->
+<!--&lt;!&ndash;							</archive>&ndash;&gt;-->
+
+<!--&lt;!&ndash;							<includes>&ndash;&gt;-->
+<!--&lt;!&ndash;								<include>org/apache/flink/table/examples/scala/TPCHQuery3Table*</include>&ndash;&gt;-->
+<!--&lt;!&ndash;							</includes>&ndash;&gt;-->
+<!--&lt;!&ndash;						</configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;					</execution>&ndash;&gt;-->
+<!--				</executions>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
 </project>
