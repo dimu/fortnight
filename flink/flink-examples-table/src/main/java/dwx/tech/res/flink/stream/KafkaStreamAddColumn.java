@@ -43,7 +43,7 @@ import static org.apache.flink.table.api.Expressions.$;
  *  - Run a StreamSQL query on the registered Table
  *
  */
-public class KafkaStreamJsonPath {
+public class KafkaStreamAddColumn {
 
 	// *************************************************************************
 	//     PROGRAM
@@ -117,16 +117,18 @@ public class KafkaStreamJsonPath {
 
 //		TableResult fileSink = tEnv.executeSql("insert into fs_table SELECT idid, sum(id) as id FROM dwx_product_source group by idid");
 		Table tableselect = tEnv
-				.sqlQuery("SELECT `inner`['idid'] AS idid, TUMBLE_START(user_action_time, INTERVAL '15' SECOND) as startTime,sum(cast(data['params']['$123']['value'] as INT)) as sumId, sum(cast(data['params']['$test1']['value'] as INT)) as test1 FROM dwx_product_source  group  by `inner`['idid'], TUMBLE(user_action_time, INTERVAL '15' SECOND)");
-//		fileSink.print();
+				.sqlQuery("SELECT `inner`['idid'] AS idid, user_action_time as startTime,data FROM dwx_product_source");
+//		fileSink.print();data
 		//窗口计算才能用append,table的查询，过滤与条件语句功能强大
-//		Table filterTable  = tableselect.filter($("data['params']['$123']['value']").isGreater(10)).select($("startTime"), $("sumId")).as("first,second");
-		Table filterTable = tableselect.select("*");
-		System.out.println(Arrays.asList(filterTable.getSchema().getFieldNames()).stream()
+
+		tableselect = tableselect.addColumns($("data['params']['$123']['value']").as("$123"));
+		tableselect  = tableselect.filter($("$123").isGreater(10));
+//		Table filterTable = tableselect.select("*");
+		System.out.println(Arrays.asList(tableselect.getSchema().getFieldNames()).stream()
 				.collect(Collectors.joining(",")));
-		tEnv.toAppendStream(filterTable, Row.class).print();
+//		tEnv.toAppendStream(filterTable, Row.class).print();
 		//
-//		tEnv.toRetractStream(tableselect, Row.class).print();
+		tEnv.toRetractStream(tableselect, Row.class).print();
 		//		tEnv.toAppendStream()
 		env.execute("StreamSQLTest");
 	}
