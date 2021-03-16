@@ -43,7 +43,7 @@ import static org.apache.flink.table.api.Expressions.$;
  *  - Run a StreamSQL query on the registered Table
  *
  */
-public class KafkaStreamAddColumn {
+public class KafkaStreamSinkMysql {
 
 	// *************************************************************************
 	//     PROGRAM
@@ -117,19 +117,35 @@ public class KafkaStreamAddColumn {
 
 //		TableResult fileSink = tEnv.executeSql("insert into fs_table SELECT idid, sum(id) as id FROM dwx_product_source group by idid");
 		Table tableselect = tEnv
-				.sqlQuery("SELECT `inner`['idid'] AS idid, user_action_time as startTime,cast(data['params']['$123']['value'] as bigint) as $123 FROM dwx_product_source");
+				.sqlQuery("SELECT pid AS pid, user_action_time as startTime,cast(data['params']['$123']['value'] as bigint) as $123 FROM dwx_product_source");
 //		fileSink.print();data
 		//窗口计算才能用append,table的查询，过滤与条件语句功能强大
 
 //		tableselect = tableselect.addColumns($("data['params']['$123']['value']").as("$123"));
 		tableselect  = tableselect.filter($("$123").isGreater(10));
-//		Table filterTable = tableselect.select("*");
+
+//
+		String sinkTableSql = "CREATE TABLE SINKTABLE ("
+				+ "  pid STRING,"
+				+ "  $123 bigint,"
+				+ "  $startTime timestamp"
+				+ ") WITH ("
+				+ "   'connector' = 'jdbc',"
+				+ "   'url' = 'jdbc:mysql://172.19.3.160:3307/dwx_test',"
+				+ "   'table-name' = 'sink_test',"
+				+ "   'username' = 'dengwx',"
+				+ "   'password' = 'Dwx!1116'"
+				+ ")";
+//		"insert into SINKTABLE select pid, $123 from dwx_product_source where $123 > 10";
+		tEnv.executeSql(sinkTableSql);
 		System.out.println(Arrays.asList(tableselect.getSchema().getFieldNames()).stream()
 				.collect(Collectors.joining(",")));
 //		tEnv.toAppendStream(filterTable, Row.class).print();
-		//
-		tEnv.toRetractStream(tableselect, Row.class).print();
+		//query schema必须与sink schema一致
+		TableResult tableResult = tableselect.select($("pid"), $("$123"), $("startTime")).as("pid,$123,$startTime").executeInsert("SINKTABLE");
+//		tEnv.toRetractStream(tableselect, Row.class).print();
 		//		tEnv.toAppendStream()
-		env.execute("StreamSQLTest");
+		System.out.println(tableResult.getJobClient().get().getJobID());
+//		env.execute("StreamSQLTest");
 	}
 }
