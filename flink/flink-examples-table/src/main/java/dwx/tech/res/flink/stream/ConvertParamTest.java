@@ -1,76 +1,95 @@
 package dwx.tech.res.flink.stream;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.security.SecureRandom;
 import java.util.Properties;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dwx.tech.res.flink.dto.ProDto;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
-import org.apache.flink.api.common.typeinfo.TypeInformation;
-import org.apache.flink.formats.json.JsonRowSerializationSchema;
+import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.WindowedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
+import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
-import org.apache.flink.streaming.connectors.kafka.KafkaDeserializationSchema;
-import org.apache.flink.streaming.connectors.kafka.KafkaSerializationSchema;
-import org.apache.flink.streaming.util.serialization.JSONKeyValueDeserializationSchema;
-import org.apache.flink.types.Row;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 /**
- * 消费kafka，进行简单测试
+ * flink 传参测试
  *
  * @author dwx
- * @date 2020-08-11
+ * @date 2021-02-24
  */
-public class KafkaStream {
+@Slf4j
+public class ConvertParamTest {
 
 	public static void main(String[] args) throws Exception {
 
 		//step1: create execute environment
 		StreamExecutionEnvironment sEnv = StreamExecutionEnvironment.getExecutionEnvironment();
 
+		for(int index = 0; index < args.length; index++) {
+			System.out.println(index + ":" + args[index]);
+		}
+
+		final ParameterTool params = ParameterTool.fromArgs(args);
+		String planner = params.has("planner") ? params.get("planner") : "blink";
+
+		String pid = params.has("pid")? params.get("pid"):"";
+
 		//ste2: add resource
 		Properties properties = new Properties();
 		properties.setProperty("bootstrap.servers", "10.12.31.22:9092");
-		properties.setProperty("group.id", "flink-test");
+		properties.setProperty("group.id", "flink-test2");
 
 //		DataStream<String> dataStreamSource = sEnv.addSource(new FlinkKafkaConsumer<String>("kafka-test", (KafkaDeserializationSchema)new JSONKeyValueDeserializationSchema(false), properties));
-		DataStream<String> dataStreamSource = sEnv.addSource(new FlinkKafkaConsumer<String>("thing_client_upstream", new SimpleStringSchema(), properties));
+		DataStream<String> dataStreamSource = sEnv.addSource(new FlinkKafkaConsumer<String>("tm-property", new SimpleStringSchema(), properties));
 
 
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		DataStream<String> deviceDataStream = dataStreamSource.map(line -> {
-			System.out.println(line);
-			Device device  = objectMapper.readValue(line, Device.class);
+			log.info(line);
+			ProDto device  = objectMapper.readValue(line, ProDto.class);
+			return device;
 
-			if ("notify".equalsIgnoreCase(device.getMethod())) {
-				return device;
-			}
-			return null;
-		}).filter(value -> value != null).map(device -> device.getDevKey() + ":" + device.getProductId());
+//			if (pid.equalsIgnoreCase(device.getPid())) {
+//				return device;
+//			}
+//			return null;
+		}).filter(value -> value != null).map(device -> device.getPid() + ":" + device.getDevName());
+		deviceDataStream.print();
 
-//		WindowedStream<Device, String, TimeWindow> windowedStream= deviceDataStream.keyBy(device -> device.getDevKey())
-//				.timeWindow(Time.minutes(10))
-//				.aggregate();
+//		WindowedStream<ProDto, String, TimeWindow> windowedStream= dataStreamSource.
+		dataStreamSource.map(line -> {
+					log.info(line);
+					ProDto device  = objectMapper.readValue(line, ProDto.class);
+					return device;
 
-		Properties properties1 = new Properties();
-		properties1.setProperty("bootstrap.servers", "172.19.3.194:9092");
+//			if (pid.equalsIgnoreCase(device.getPid())) {
+//				return device;
+//			}
+//			return null;
+				}).keyBy(device -> {
+			return device.getDevName();
+		}).window(TumblingProcessingTimeWindows.of((Time.seconds(10)))).maxBy("pid").print();
 
-		FlinkKafkaProducer<String> sinkProducer = new FlinkKafkaProducer<String>(
-			"kafka-test", new SimpleStringSchema(), properties1
-		);
 
-		deviceDataStream.addSink(sinkProducer);
+
+//		Properties properties1 = new Properties();
+//		properties1.setProperty("bootstrap.servers", "172.19.3.194:9092");
+//
+//		FlinkKafkaProducer<String> sinkProducer = new FlinkKafkaProducer<String>(
+//			"kafka-test", new SimpleStringSchema(), properties1
+//		);
+
+//		deviceDataStream.addSink(sinkProducer);
 
 //		List<Integer> arrayList = new ArrayList<Integer>();
 //		arrayList.add(0,1);
@@ -79,7 +98,10 @@ public class KafkaStream {
 //			System.out.println(item);
 //		});
 
-		sEnv.execute("kafka stream test");
+//		String tableName = params.get("sinkTable");
+
+
+		sEnv.execute("kafka stream convert test" + UUID.randomUUID());
 
 		System.out.println("over!");
 	}

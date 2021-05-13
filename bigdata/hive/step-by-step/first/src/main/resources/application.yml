@@ -1,0 +1,11 @@
+server:
+  port: 8888
+
+spring:
+  datasource:
+    hive:
+      url: jdbc:hive2://172.19.3.194:10000/dwxtest
+      driver-class-name: org.apache.hive.jdbc.HiveDriver
+#      type: com.alibaba.druid.pool.DruidDataSource
+      username: app
+#

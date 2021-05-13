@@ -85,7 +85,7 @@ public class ExcelExportHelper {
 	public OutputStream getOutputStream(HttpServletResponse response) throws IOException {
 		try {
 			response.setContentType("application/vnd.ms-excel;charset=UTF-8");
-			response.setHeader("Content-Disposition", "attachment; filename=" + FILE + ".xls");
+			response.setHeader("Content-Disposition", "attachment; filename=user.xls");
 			response.setHeader("Pragma", "no-cache");
 			response.setHeader("Cache-Control", "no-cache");
 			response.setDateHeader("Expires", 0);

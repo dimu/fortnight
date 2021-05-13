@@ -113,5 +113,7 @@ dependencies {
     implementation  'org.projectlombok:lombok:1.18.12'
 
     implementation 'com.alibaba:easyexcel:2.2.6'
+
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3'
 }
 

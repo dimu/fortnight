@@ -7,8 +7,9 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/credit?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT
     username: root
-    password: livealive
-  
+    password: ENC(NeBgRZqjo+E5wQkYt+FopfD1/jqOBoc0)
+  #    password: livealive
+
   #redis config
   redis:
     database: 7
@@ -41,5 +42,10 @@ spring:
     - 172.19.3.196:9092
     consumer:
       group-id: test
-          
-          
+
+jasypt:
+  encryptor:
+    password: 123456
+    algorithm: PBEWithMD5AndDES
+    #3.0.0以后的新版本兼容老版本
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
