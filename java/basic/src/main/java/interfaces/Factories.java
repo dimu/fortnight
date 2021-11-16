@@ -7,6 +7,11 @@ interface Service {
   void method2();
 }
 
+interface Service1 {
+  void method1();
+  void method2();
+}
+
 interface ServiceFactory {
   Service getService();
 }
@@ -15,7 +20,15 @@ class Implementation1 implements Service {
   Implementation1() {} // Package access
   public void method1() {print("Implementation1 method1");}
   public void method2() {print("Implementation1 method2");}
-}	
+}
+
+class Implementation2 extends Implementation1 implements  Service1 {
+  public void method1() {super.method1();}
+
+  public void method2() {print("Implementation1 method2");}
+
+  public void method3() {}
+}
 
 class Implementation1Factory implements ServiceFactory {
   public Service getService() {

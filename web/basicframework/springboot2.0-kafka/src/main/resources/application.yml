@@ -16,21 +16,21 @@ spring:
 #    - 172.19.3.194:9092
 #    - 172.19.3.195:9092
 #    - 172.19.3.196:9092
-#    - 172.19.19.104:9092
-#    - 172.19.19.105:9092
-#    - 172.19.19.106:9092
-      - 10.12.31.22:9092
-      - 10.12.31.23:9092
-      - 10.12.31.24:9092
+    - 172.19.19.104:9092
+    - 172.19.19.105:9092
+    - 172.19.19.106:9092
+#      - 10.12.31.22:9092
+#      - 10.12.31.23:9092
+#      - 10.12.31.24:9092
     consumer:
-      group-id: dwx-test
+      group-id: dwx-test1
       #关闭自动提交
       enable-auto-commit: false
       max-poll-records: 1024
 #      fetch-min-size: 128
       fetch-max-wait: 500
       client-id: dwx-pc
-      auto-offset-reset: latest
+      auto-offset-reset: earliest
     listener:
       # 配置手动提交方式
       ack-mode: manual

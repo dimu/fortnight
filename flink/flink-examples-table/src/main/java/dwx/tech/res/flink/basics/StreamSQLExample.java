@@ -25,6 +25,7 @@ import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.types.Row;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -92,6 +93,7 @@ public class StreamSQLExample {
 				+ "'properties.bootstrap.servers' = '10.12.31.148:9092,10.12.31.149:9092,10.12.31.150:9092',"
 				+ "'format' = 'json' "
 				+ ")");
+//		tEnv.toAppendStream("dwx_product_source", );
 		System.out.println(sourceTable.getTableSchema().toString());
 
 		tEnv.executeSql("CREATE TABLE dwx_product_sink ("

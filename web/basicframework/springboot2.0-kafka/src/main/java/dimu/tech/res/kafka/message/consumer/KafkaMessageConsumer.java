@@ -31,10 +31,10 @@ public class KafkaMessageConsumer {
     @Resource
     private KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
 
-//    @KafkaListener(topics = "tm-setPropertiesReply")
-    public void processTestMessage(String content) {
-        System.out.println("receive message: " + content);
-    }
+//    @KafkaListener(topics = "tm-getPropertiesReply")
+//    public void processTestMessage(String content) {
+//        System.out.println("receive message: " + content);
+//    }
 
 //    @KafkaListener(topics = "building", containerFactory = "kafkaListenerContainerFactory")
 //    @KafkaListener(topics = "kafka-test")

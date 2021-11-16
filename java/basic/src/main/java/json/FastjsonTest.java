@@ -32,4 +32,34 @@ public class FastjsonTest {
         System.out.println(ob.getMap());
         System.out.println(ob.getName());
     }
+
+    @Test
+    public void serializeTest() {
+        PersonVo testVO = new PersonVo();
+        testVO.setAge(12);
+        testVO.setName("dwx");
+
+        PersonVo.ClassMate classMate = new PersonVo.ClassMate();
+        classMate.setName("dd");
+        classMate.setSex(true);
+
+        testVO.setMate(classMate);
+
+        System.out.println(JSONObject.toJSONString(testVO));
+
+        String jsonString = "{\"age\":12,\"mate\":{\"name\":\"dd\",\"sex\":true},\"name\":\"dwx\"}";
+        PersonVo personVo = JSONObject.parseObject(jsonString, PersonVo.class);
+        System.out.println(personVo.getMate() == null ? true : JSONObject.toJSONString(personVo.getMate()));
+    }
+
+    @Test
+    public void deserializeTest() {
+        String intJsonStr = "12";
+        Object intDeser = JSONObject.parse(intJsonStr);
+        System.out.println((int)intDeser - 1);
+
+        String StrJsonStr = "\"abc\"";
+        Object strDeser = JSONObject.parse(StrJsonStr);
+        System.out.println(strDeser);
+    }
 }

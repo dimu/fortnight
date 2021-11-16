@@ -6,7 +6,7 @@ compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
 repositories {
-	maven { url "https://maven.aliyun.com/nexus/content/groups/public" }
+//	maven { url "https://maven.aliyun.com/nexus/content/groups/public" }
 	maven { url "https://maven.oschina.net/content/groups/public/" }
 	maven { url "https://repo.spring.io/libs-snapshot" }
 	mavenCentral()
@@ -59,4 +59,11 @@ dependencies {
 
 	//java caffeine cache
 	compile "com.github.ben-manes.caffeine:caffeine:2.8.4"
+
+//	compile  "org.projectlombok:lombok:1.18.16"
+
+	compileOnly 'org.projectlombok:lombok:1.18.16'
+	annotationProcessor 'org.projectlombok:lombok:1.18.16'
+	testCompileOnly 'org.projectlombok:lombok:1.18.16'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
 }

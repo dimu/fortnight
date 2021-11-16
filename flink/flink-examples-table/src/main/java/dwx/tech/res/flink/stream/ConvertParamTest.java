@@ -101,7 +101,7 @@ public class ConvertParamTest {
 //		String tableName = params.get("sinkTable");
 
 
-		sEnv.execute("kafka stream convert test" + UUID.randomUUID());
+		sEnv.execute("kafka stream api call test!");
 
 		System.out.println("over!");
 	}

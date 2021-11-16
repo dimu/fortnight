@@ -39,8 +39,10 @@ public class KafkaApplication implements ApplicationRunner, ApplicationListener<
     public void run(ApplicationArguments args) throws Exception {
 
 //        kafkaMessageProducer.produceMessage();
-        kafkaMessageProducer.produceEventMessage();
+//        kafkaMessageProducer.producePropertyMessage();
+//        kafkaMessageProducer.produceEventMessage();
 //        kafkaMessageProducer.produceCmdMessage();
+        kafkaMessageProducer.produceGetCmdMessage();
         
 //        RedisLockTemplate<String> redisLockTemplate = new RedisLockTemplate<>(jedisPool);
 //        ExecutorService executor = Executors.newFixedThreadPool(10);
