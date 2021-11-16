@@ -12,12 +12,14 @@
 
 	<properties>
 		<scala.binary.version>2.11</scala.binary.version>
+<<<<<<< HEAD
 		<!--		<flink.version>1.11.0</flink.version>-->
+=======
+>>>>>>> c659125fe53a91be4fedc33830547387609e01cd
 		<flink.version>1.12.0</flink.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-		<lombok.version>1.18.12</lombok.version>
 	</properties>
 
 	<dependencies>
@@ -66,6 +68,7 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.11.0</version>
 		</dependency>
+<<<<<<< HEAD
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -94,12 +97,39 @@
 			<version>1.8.0</version>
 		</dependency>
 
+=======
+>>>>>>> c659125fe53a91be4fedc33830547387609e01cd
 	</dependencies>
 
 	<build>
 		<plugins>
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-assembly-plugin</artifactId>-->
+<!--				<version>3.1.0</version>-->
+<!--				<configuration>-->
+<!--					<archive>-->
+<!--						<manifest>-->
+<!--							<mainClass>dwx.tech.res.flink.basics.StreamSQLExample</mainClass>-->
+<!--						</manifest>-->
+<!--					</archive>-->
+<!--					<descriptorRefs>-->
+<!--						<descriptorRef>jar-with-dependencies</descriptorRef>-->
+<!--					</descriptorRefs>-->
+<!--				</configuration>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>make-assembly</id>-->
+<!--						<phase>package</phase>-->
+<!--						<goals>-->
+<!--							<goal>single</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+<<<<<<< HEAD
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>3.1.0</version>
 				<configuration>
@@ -112,14 +142,33 @@
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 				</configuration>
+=======
+				<artifactId>maven-jar-plugin</artifactId>
+>>>>>>> c659125fe53a91be4fedc33830547387609e01cd
 				<executions>
+
 					<execution>
-						<id>make-assembly</id>
+						<id>StreamSQLExample</id>
 						<phase>package</phase>
 						<goals>
-							<goal>single</goal>
+							<goal>jar</goal>
 						</goals>
+
+						<configuration>
+							<classifier>StreamSQLExample</classifier>
+
+							<archive>
+								<manifestEntries>
+									<program-class>dwx.tech.res.flink.basics.StreamSQLExample</program-class>
+								</manifestEntries>
+							</archive>
+
+<!--							<includes>-->
+<!--								<include>dwx.tech.res.flink.basics.StreamSQLExample</include>-->
+<!--							</includes>-->
+						</configuration>
 					</execution>
+<<<<<<< HEAD
 				</executions>
 			</plugin>
 <!--			<plugin>-->
@@ -140,38 +189,63 @@
 <!--							<archive>-->
 <!--								<manifestEntries>-->
 <!--									<program-class>dwx.tech.res.flink.basics.StreamSQLExample</program-class>-->
-<!--								</manifestEntries>-->
-<!--							</archive>-->
-
-<!--							<includes>-->
-<!--								<include>dwx.tech.res.flink.basics.StreamSQLExample</include>-->
-<!--							</includes>-->
-<!--						</configuration>-->
-<!--					</execution>-->
+=======
 
 <!--					<execution>-->
-<!--						<id>StreamSQLExample</id>-->
+<!--						<id>StreamWindowSQLExample</id>-->
 <!--						<phase>package</phase>-->
 <!--						<goals>-->
 <!--							<goal>jar</goal>-->
 <!--						</goals>-->
 
 <!--						<configuration>-->
-<!--							<classifier>ConvertParamTest</classifier>-->
+<!--							<classifier>StreamWindowSQLExample</classifier>-->
 
 <!--							<archive>-->
 <!--								<manifestEntries>-->
-<!--									<program-class>dwx.tech.res.flink.stream.ConvertParamTest</program-class>-->
+<!--									<program-class>org.apache.flink.table.examples.java.basics.StreamWindowSQLExample</program-class>-->
+>>>>>>> c659125fe53a91be4fedc33830547387609e01cd
 <!--								</manifestEntries>-->
 <!--							</archive>-->
 
 <!--							<includes>-->
+<<<<<<< HEAD
 <!--								<include>dwx.tech.res.flink.basics.StreamSQLExample</include>-->
+=======
+<!--								<include>org/apache/flink/table/examples/java/basics/StreamWindowSQLExample*</include>-->
+>>>>>>> c659125fe53a91be4fedc33830547387609e01cd
 <!--							</includes>-->
 <!--						</configuration>-->
 <!--					</execution>-->
 
 <!--					<execution>-->
+<!--						<id>WordCountSQL</id>-->
+<!--						<phase>package</phase>-->
+<!--						<goals>-->
+<!--							<goal>jar</goal>-->
+<!--						</goals>-->
+
+<!--						<configuration>-->
+<!--							<classifier>WordCountSQL</classifier>-->
+
+<!--							<archive>-->
+<!--								<manifestEntries>-->
+<!--									<program-class>org.apache.flink.table.examples.java.basics.WordCountSQL</program-class>-->
+<!--								</manifestEntries>-->
+<!--							</archive>-->
+
+<!--							<includes>-->
+<<<<<<< HEAD
+<!--								<include>dwx.tech.res.flink.basics.StreamSQLExample</include>-->
+=======
+<!--								<include>org/apache/flink/table/examples/java/basics/WordCountSQL*</include>-->
+>>>>>>> c659125fe53a91be4fedc33830547387609e01cd
+<!--							</includes>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+
+<!--					<execution>-->
+<<<<<<< HEAD
 <!--						<id>StreamWindowSQLExample</id>-->
 <!--						<phase>package</phase>-->
 <!--						<goals>-->
@@ -218,6 +292,8 @@
 <!--					</execution>-->
 
 <!--					<execution>-->
+=======
+>>>>>>> c659125fe53a91be4fedc33830547387609e01cd
 <!--						<id>WordCountTable</id>-->
 <!--						<phase>package</phase>-->
 <!--						<goals>-->
@@ -229,8 +305,12 @@
 
 <!--							<archive>-->
 <!--								<manifestEntries>-->
+<<<<<<< HEAD
 <!--									<program-class>org.apache.flink.table.examples.java.basics.WordCountTable-->
 <!--									</program-class>-->
+=======
+<!--									<program-class>org.apache.flink.table.examples.java.basics.WordCountTable</program-class>-->
+>>>>>>> c659125fe53a91be4fedc33830547387609e01cd
 <!--								</manifestEntries>-->
 <!--							</archive>-->
 
@@ -252,9 +332,13 @@
 
 <!--							<archive>-->
 <!--								<manifestEntries>-->
+<<<<<<< HEAD
 <!--									<program-class>-->
 <!--										org.apache.flink.table.examples.java.connectors.ChangelogSocketExample-->
 <!--									</program-class>-->
+=======
+<!--									<program-class>org.apache.flink.table.examples.java.connectors.ChangelogSocketExample</program-class>-->
+>>>>>>> c659125fe53a91be4fedc33830547387609e01cd
 <!--								</manifestEntries>-->
 <!--							</archive>-->
 
@@ -277,8 +361,12 @@
 
 <!--							<archive>-->
 <!--								<manifestEntries>-->
+<<<<<<< HEAD
 <!--									<program-class>org.apache.flink.table.examples.scala.StreamTableExample-->
 <!--									</program-class>-->
+=======
+<!--									<program-class>org.apache.flink.table.examples.scala.StreamTableExample</program-class>-->
+>>>>>>> c659125fe53a91be4fedc33830547387609e01cd
 <!--								</manifestEntries>-->
 <!--							</archive>-->
 
@@ -309,8 +397,13 @@
 <!--							</includes>-->
 <!--						</configuration>-->
 <!--					</execution>-->
+<<<<<<< HEAD
 <!--				</executions>-->
 <!--			</plugin>-->
+=======
+				</executions>
+			</plugin>
+>>>>>>> c659125fe53a91be4fedc33830547387609e01cd
 		</plugins>
 	</build>
 </project>

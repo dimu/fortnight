@@ -18,7 +18,7 @@ import org.apache.flink.types.Row;
  */
 public class AnatomyOfFlink {
 
-	public static void main(String[] args) throws URISyntaxException {
+	public static void main(String[] args) throws Exception {
 		final StreamExecutionEnvironment sEnv = StreamExecutionEnvironment.getExecutionEnvironment();
 //		sEnv.readFile(new RowCsvInputFormat());
 		URL url = AnatomyOfFlink.class.getClassLoader().getResource("data/student.csv");
@@ -26,12 +26,14 @@ public class AnatomyOfFlink {
 				new TypeInformation[]{TypeInformation.of(String.class),TypeInformation.of(String.class),TypeInformation.of(Integer.class),TypeInformation.of(String.class)});
 		DataStream<Row> ds =  sEnv.readFile(rowCsvInputFormat, url.getPath()).name("CSV Input Source");
 
-		ds.map(key-> {
-			System.out.println(key);
-			return key;
-		});
+//		ds.map(key-> {
+//			System.out.println(key);
+//			return key;
+//		}).print();
+		ds.print();
 
 		System.out.println("over");
+		sEnv.execute("anatomy of flink");
 	}
 
 }
