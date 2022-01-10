@@ -28,5 +28,44 @@ public class PersonVo {
         @JSONField( ordinal = 0)
         private Boolean sex;
 
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Boolean getSex() {
+            return sex;
+        }
+
+        public void setSex(Boolean sex) {
+            this.sex = sex;
+        }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public ClassMate getMate() {
+        return mate;
+    }
+
+    public void setMate(ClassMate mate) {
+        this.mate = mate;
     }
 }

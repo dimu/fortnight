@@ -36,11 +36,11 @@ class Implementation1Factory implements ServiceFactory {
   }
 }
 
-class Implementation2 implements Service {
-  Implementation2() {} // Package access
-  public void method1() {print("Implementation2 method1");}
-  public void method2() {print("Implementation2 method2");}
-}
+//class Implementation2 implements Service {
+//  Implementation2() {} // Package access
+//  public void method1() {print("Implementation2 method1");}
+//  public void method2() {print("Implementation2 method2");}
+//}
 
 class Implementation2Factory implements ServiceFactory {
   public Service getService() {
