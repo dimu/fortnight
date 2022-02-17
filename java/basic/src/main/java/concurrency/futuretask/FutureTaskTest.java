@@ -13,18 +13,19 @@ public class FutureTaskTest {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         FutureTask<String> task = new FutureTask<>(() ->
         {
-//            TimeUnit.SECONDS.sleep(2);
             System.out.println("future task run in: " + Thread.currentThread().getName());
-            return Thread.currentThread().getName();
+            TimeUnit.SECONDS.sleep(5);
+            String a = Thread.currentThread().getName();
+            return a;
         });
 
 //        new Thread(task).start();
 
 //        TimeUnit.SECONDS.sleep(1);
 
-        /**
-         * call run to start the task
-         */
+//        /**
+//         * call run to start the task
+//         */
         task.run();
 
         System.out.println("main thread is: " + Thread.currentThread().getName());
@@ -36,6 +37,8 @@ public class FutureTaskTest {
 
 
 //        ExecutorService service = Executors.newSingleThreadExecutor();
+//        System.out.println(service.submit(task).get());
+//        service.execute(task);
 //        service.shutdown();
 
     }

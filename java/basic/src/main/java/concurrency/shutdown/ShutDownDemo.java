@@ -18,7 +18,7 @@ public class ShutDownDemo {
         /**
          * main thread 休眠1秒
          */
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(2);
 
         /**
          * 唤醒t1线程
@@ -30,7 +30,7 @@ public class ShutDownDemo {
 
         t1.start();
 
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(3);
 
         two.cancel();
 
