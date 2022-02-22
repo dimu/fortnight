@@ -1,6 +1,5 @@
 package dim.tech.res.disruptor.schedule;
 
-import java.security.SecureRandom;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -11,7 +10,7 @@ import com.lmax.disruptor.WorkHandler;
 import com.lmax.disruptor.dsl.Disruptor;
 import dim.tech.res.disruptor.config.DisruptorConfig;
 import dim.tech.res.disruptor.config.DisruptorProducer;
-import dim.tech.res.disruptor.config.KafkaMsg;
+import dim.tech.res.disruptor.config.DisruptorEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -30,7 +29,7 @@ public class ScheduleMockProducer {
 	private DisruptorConfig disruptorConfig;
 
 	@Resource
-	List<WorkHandler<KafkaMsg>> workHandlerList;
+	List<WorkHandler<DisruptorEvent>> workHandlerList;
 
 	@Resource
 	private DisruptorProducer disruptorProducer;

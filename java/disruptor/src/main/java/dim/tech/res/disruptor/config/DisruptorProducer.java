@@ -10,9 +10,9 @@ import com.lmax.disruptor.RingBuffer;
  */
 public class DisruptorProducer {
 
-    private final RingBuffer<KafkaMsg> ringBuffer;
+    private final RingBuffer<DisruptorEvent> ringBuffer;
 
-    public DisruptorProducer(RingBuffer<KafkaMsg> ringBuffer) {
+    public DisruptorProducer(RingBuffer<DisruptorEvent> ringBuffer) {
         this.ringBuffer = ringBuffer;
     }
 
@@ -27,7 +27,7 @@ public class DisruptorProducer {
         long sequence = ringBuffer.next();
         try {
             //用上面的索引取出一个空的事件用于填充
-            KafkaMsg event = ringBuffer.get(sequence);
+            DisruptorEvent event = ringBuffer.get(sequence);
             event.setKey(key);
             event.setValue(val);
         } finally {

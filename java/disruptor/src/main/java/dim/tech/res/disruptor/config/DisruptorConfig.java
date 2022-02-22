@@ -29,20 +29,20 @@ public class DisruptorConfig implements ApplicationContextAware {
     @Value("${disruptor.buffer-size:8192}")
     private int bufferSize;
 
-    @Value("${disruptor.worker-num:1}")
+    @Value("${disruptor.worker-num:8}")
     private int workerNum;
 
-    private EventHandlerGroup<KafkaMsg> eventHandlerGroup;
+    private EventHandlerGroup<DisruptorEvent> eventHandlerGroup;
 
     @Bean
     public Disruptor disruptor() {
         CustomEventFactory eventFactory = new CustomEventFactory();
         DefaultThreadFactory defaultThreadFactory = new DefaultThreadFactory();
         WaitStrategy waitStrategy = new BlockingWaitStrategy();
-        Disruptor<KafkaMsg> disruptor = new Disruptor<KafkaMsg>(eventFactory, bufferSize, defaultThreadFactory, ProducerType.MULTI, waitStrategy);
+        Disruptor<DisruptorEvent> disruptor = new Disruptor<DisruptorEvent>(eventFactory, bufferSize, defaultThreadFactory, ProducerType.MULTI, waitStrategy);
         WorkHandler[] workHandlers = new WorkHandler[workerNum];
         for (int i = 0; i < workerNum; i++) {
-            WorkHandler workHandler = this.applicationContext.getBean(KafkaMsgHandler.class);
+            WorkHandler workHandler = this.applicationContext.getBean(DisruptorEventHandler.class);
             workHandlers[i] = workHandler;
         }
         eventHandlerGroup = disruptor.handleEventsWithWorkerPool(workHandlers);
@@ -53,7 +53,7 @@ public class DisruptorConfig implements ApplicationContextAware {
 
     @Bean
     public DisruptorProducer producer(Disruptor disruptor) {
-        RingBuffer<KafkaMsg> ringBuffer = disruptor.getRingBuffer();
+        RingBuffer<DisruptorEvent> ringBuffer = disruptor.getRingBuffer();
         return new DisruptorProducer(ringBuffer);
     }
 
@@ -62,7 +62,7 @@ public class DisruptorConfig implements ApplicationContextAware {
         this.applicationContext = applicationContext;
     }
 
-    public EventHandlerGroup<KafkaMsg> getEventHandlerGroup() {
+    public EventHandlerGroup<DisruptorEvent> getEventHandlerGroup() {
         return eventHandlerGroup;
     }
 }

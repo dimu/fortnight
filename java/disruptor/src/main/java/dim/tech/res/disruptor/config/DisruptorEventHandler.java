@@ -3,11 +3,11 @@ package dim.tech.res.disruptor.config;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.lmax.disruptor.WorkHandler;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,21 +18,26 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-//@Scope("prototype")
-public class KafkaMsgHandler implements WorkHandler<KafkaMsg> {
+public class DisruptorEventHandler implements WorkHandler<DisruptorEvent> {
 
     public static AtomicInteger count = new AtomicInteger(0);
 
+    private final ReentrantLock lock = new ReentrantLock();
+
     @Override
-    public void onEvent(KafkaMsg msg) {
+    public void onEvent(DisruptorEvent msg) {
+        lock.lock();
         try {
-//            this.coreService.dealMsg(msg);
+            log.info("Thread {} hod count {}", Thread.currentThread().getName(), lock.getHoldCount());
+            log.info("lock waiting queue length: {}", lock.getQueueLength());
             TimeUnit.SECONDS.sleep(5);
             System.out.println("consumer msg:" + msg.toString());
-            log.info("consumer count {}", count.incrementAndGet());
+            log.info("thread {} consumer count {}", Thread.currentThread().getName(), count.incrementAndGet());
         } catch (Exception e) {
             log.info("【fail_msg】:{}", msg.toString());
             log.error("【KafkaMsgHandler】", e);
+        } finally {
+            lock.unlock();
         }
     }
 }
