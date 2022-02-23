@@ -26,7 +26,7 @@ public class DisruptorConfig implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
-    @Value("${disruptor.buffer-size:8192}")
+    @Value("${disruptor.buffer-size:16}")
     private int bufferSize;
 
     @Value("${disruptor.worker-num:8}")
@@ -40,6 +40,9 @@ public class DisruptorConfig implements ApplicationContextAware {
         DefaultThreadFactory defaultThreadFactory = new DefaultThreadFactory();
         WaitStrategy waitStrategy = new BlockingWaitStrategy();
         Disruptor<DisruptorEvent> disruptor = new Disruptor<DisruptorEvent>(eventFactory, bufferSize, defaultThreadFactory, ProducerType.MULTI, waitStrategy);
+        /**
+         * one workhandler use one thread to process it. see WorkProcessor class.
+         */
         WorkHandler[] workHandlers = new WorkHandler[workerNum];
         for (int i = 0; i < workerNum; i++) {
             WorkHandler workHandler = this.applicationContext.getBean(DisruptorEventHandler.class);

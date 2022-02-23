@@ -42,13 +42,13 @@ public class ScheduleMockProducer {
 		String value = UUID.randomUUID().toString();
 		disruptorProducer.publish(key,value);
 
-		System.out.println("producer count: " + count.incrementAndGet());
+//		System.out.println("producer count: " + count.incrementAndGet());
 
 		long cursor = disruptor.getCursor();
 
 
-		log.info("cursor: {},  min-current:{}", cursor, disruptor.getRingBuffer().getMinimumGatingSequence());
-		log.info("cursor lag: {}", cursor - disruptorConfig.getEventHandlerGroup().asSequenceBarrier().getCursor());
-		log.info("{}",disruptor.getRingBuffer().getBufferSize()-disruptor.getRingBuffer().remainingCapacity());
+//		log.info("cursor: {},  min-current:{}", cursor, disruptor.getRingBuffer().getMinimumGatingSequence());
+//		log.info("cursor lag: {}", cursor - disruptorConfig.getEventHandlerGroup().asSequenceBarrier().getCursor());
+		log.info("disruptor remaining size: {}",disruptor.getRingBuffer().remainingCapacity());
 	}
 }
