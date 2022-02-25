@@ -26,7 +26,7 @@ public class DisruptorConfig implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
-    @Value("${disruptor.buffer-size:16}")
+    @Value("${disruptor.buffer-size:1}")
     private int bufferSize;
 
     @Value("${disruptor.worker-num:8}")

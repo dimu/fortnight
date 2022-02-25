@@ -40,6 +40,7 @@ public class ScheduleMockProducer {
 	public void schedulePrintDisruptorSize() {
 		String key = UUID.randomUUID().toString();
 		String value = UUID.randomUUID().toString();
+		log.info("tread {} publish before,disruptor remaining size: {}",Thread.currentThread().getName(), disruptor.getRingBuffer().remainingCapacity());
 		disruptorProducer.publish(key,value);
 
 //		System.out.println("producer count: " + count.incrementAndGet());
@@ -49,6 +50,6 @@ public class ScheduleMockProducer {
 
 //		log.info("cursor: {},  min-current:{}", cursor, disruptor.getRingBuffer().getMinimumGatingSequence());
 //		log.info("cursor lag: {}", cursor - disruptorConfig.getEventHandlerGroup().asSequenceBarrier().getCursor());
-		log.info("disruptor remaining size: {}",disruptor.getRingBuffer().remainingCapacity());
+		log.info("thread {} publish over, disruptor remaining size: {}",Thread.currentThread().getName(), disruptor.getRingBuffer().remainingCapacity());
 	}
 }
