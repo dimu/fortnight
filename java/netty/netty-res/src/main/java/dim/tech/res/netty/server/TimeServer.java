@@ -1,5 +1,6 @@
 package dim.tech.res.netty.server;
 
+import dim.tech.res.netty.codec.TimeEncoder;
 import dim.tech.res.netty.handler.TimeServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -28,7 +29,8 @@ public class TimeServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new TimeServerHandler());
+//                            ch.pipeline().addLast(new TimeServerHandler());
+                            ch.pipeline().addLast(new TimeEncoder()).addLast(new TimeServerHandler());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)

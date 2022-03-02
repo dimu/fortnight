@@ -1,5 +1,6 @@
 package dim.tech.res.netty.handler;
 
+import dim.tech.res.netty.pojo.UnixTime;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -12,20 +13,26 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
      * callback when a connection is established
      * @param ctx
      */
+//    @Override
+//    public void channelActive(final ChannelHandlerContext ctx) { // (1)
+//        final ByteBuf time = ctx.alloc().buffer(4); // (2)
+//        time.writeInt((int) (System.currentTimeMillis() / 1000L + 2208988800L));
+//
+//        final ChannelFuture f = ctx.writeAndFlush(time); // (3)
+//        f.addListener(new ChannelFutureListener() {
+//            @Override
+//            public void operationComplete(ChannelFuture future) {
+//                assert f == future;
+//                //will close the connection.
+//                ctx.close();
+//            }
+//        }); // (4)
+//    }
+
     @Override
     public void channelActive(final ChannelHandlerContext ctx) { // (1)
-        final ByteBuf time = ctx.alloc().buffer(4); // (2)
-        time.writeInt((int) (System.currentTimeMillis() / 1000L + 2208988800L));
-
-        final ChannelFuture f = ctx.writeAndFlush(time); // (3)
-        f.addListener(new ChannelFutureListener() {
-            @Override
-            public void operationComplete(ChannelFuture future) {
-                assert f == future;
-                //will close the connection.
-                ctx.close();
-            }
-        }); // (4)
+        ChannelFuture f = ctx.writeAndFlush(new UnixTime());
+        f.addListener(ChannelFutureListener.CLOSE);
     }
 
     @Override
