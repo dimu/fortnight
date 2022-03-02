@@ -1,5 +1,6 @@
 package dim.tech.res.netty.client;
 
+import dim.tech.res.netty.codec.TimeDecoder;
 import dim.tech.res.netty.handler.TimeClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -24,7 +25,7 @@ public class TimeClient {
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new TimeClientHandler());
+                    ch.pipeline().addLast(new TimeDecoder()).addLast(new TimeClientHandler());
                 }
             });
 
