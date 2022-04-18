@@ -11,10 +11,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * mock client，use thread scheduler to send person message to person server
@@ -32,16 +30,20 @@ public class PersonClient {
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new PersonEncoder(),new PersonClientHandler());
+                    ch.pipeline().addLast(new StringDecoder(), new PersonClientHandler(),new PersonEncoder());
                 }
             });
 
             // Start the client.
-            ChannelFuture f = b.connect("localhost", 8081).sync();
-            f.channel().unsafe().localAddress();
-
+            ChannelFuture f = b.connect("127.0.0.1", 8081).sync();
+            Person person = new Person();
+            person.setId(SecureRandom.getInstanceStrong().nextLong());
+            person.setAge(SecureRandom.getInstanceStrong().nextInt(100));
+            person.setName("dimu");
+            f.channel().writeAndFlush(person);
             // Wait until the connection is closed.
             f.channel().closeFuture().sync();
+
         } finally {
             workerGroup.shutdownGracefully();
         }

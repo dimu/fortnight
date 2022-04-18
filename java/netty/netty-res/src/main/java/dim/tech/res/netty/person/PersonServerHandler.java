@@ -7,19 +7,30 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
+import java.util.Date;
+
 public class PersonServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
-        System.out.println("server receive connection from client!");
+        String msg = "server receive connection from client!" + new Date();
+        System.out.println(msg);
+        ctx.writeAndFlush(msg);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         Person person = (Person) msg;
         System.out.println("server handler recieve:" + person.toString());
-        ctx.writeAndFlush("Server has received the message");
-//        System.out.println("netty server received msg:" + person.toString());
+        System.out.println(ctx.channel().toString());
+        ctx.write("Server has received the message");
+    }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("server process over, flush response!");
+        System.out.println(ctx.channel().toString());
+        ctx.flush();
     }
 
     @Override
