@@ -1,4 +1,4 @@
-package dim.tech.res.netty.codec;
+package dim.tech.res.netty.time;
 
 import dim.tech.res.netty.pojo.UnixTime;
 import io.netty.buffer.ByteBuf;

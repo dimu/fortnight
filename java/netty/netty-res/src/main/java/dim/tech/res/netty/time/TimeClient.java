@@ -1,7 +1,5 @@
-package dim.tech.res.netty.client;
+package dim.tech.res.netty.time;
 
-import dim.tech.res.netty.codec.TimeDecoder;
-import dim.tech.res.netty.handler.TimeClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;

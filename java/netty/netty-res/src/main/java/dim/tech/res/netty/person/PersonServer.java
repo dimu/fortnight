@@ -1,6 +1,5 @@
 package dim.tech.res.netty.person;
 
-import dim.tech.res.netty.server.TimeServer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -42,7 +41,7 @@ public class PersonServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new PersonDecoder(),new PersonServerHandler());
+                            ch.pipeline().addLast(new PersonServerResponseHandler(), new PersonServerHandler());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)

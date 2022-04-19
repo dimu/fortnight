@@ -7,6 +7,7 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 public class PersonServerHandler extends ChannelInboundHandlerAdapter {
@@ -15,7 +16,7 @@ public class PersonServerHandler extends ChannelInboundHandlerAdapter {
     public void channelActive(final ChannelHandlerContext ctx) {
         String msg = "server receive connection from client!" + new Date();
         System.out.println(msg);
-        ctx.writeAndFlush(msg);
+        ctx.writeAndFlush(msg + " now.\r\n");
     }
 
     @Override
