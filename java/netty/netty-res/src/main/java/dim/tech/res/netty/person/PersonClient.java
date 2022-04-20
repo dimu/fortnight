@@ -30,17 +30,17 @@ public class PersonClient {
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new PersonClientHandler(),new PersonEncoder());
+                    ch.pipeline().addLast(new StringDecoder(), new PersonEncoder(), new PersonClientHandler());
                 }
             });
 
             // Start the client.
             ChannelFuture f = b.connect("127.0.0.1", 8081).sync();
-//            Person person = new Person();
-//            person.setId(SecureRandom.getInstanceStrong().nextLong());
-//            person.setAge(SecureRandom.getInstanceStrong().nextInt(100));
-//            person.setName("dimu");
-//            f.channel().writeAndFlush(person);
+            Person person = new Person();
+            person.setId(SecureRandom.getInstanceStrong().nextLong());
+            person.setAge(SecureRandom.getInstanceStrong().nextInt(100));
+            person.setName("dimu");
+            f.channel().writeAndFlush(person);
             // Wait until the connection is closed.
             f.channel().closeFuture().sync();
 

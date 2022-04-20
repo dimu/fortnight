@@ -41,7 +41,10 @@ public class PersonServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new PersonServerResponseHandler(), new PersonServerHandler());
+                            //在管道流上，特别要注意各个in，out handler的顺序，在每个handler的对象中，会记录pre，next handler信息，如果是从
+                            //ctx写入数据，out的handler必须在处理handler之前，否则会无法调用
+//                            ch.pipeline().addLast(new PersonServerResponseHandler(),new StringEncoder(), new PersonServerHandler());
+                            ch.pipeline().addLast(new PersonDecoder(), new StringEncoder(), new PersonServerHandler());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)

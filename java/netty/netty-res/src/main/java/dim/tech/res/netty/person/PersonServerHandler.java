@@ -16,7 +16,11 @@ public class PersonServerHandler extends ChannelInboundHandlerAdapter {
     public void channelActive(final ChannelHandlerContext ctx) {
         String msg = "server receive connection from client!" + new Date();
         System.out.println(msg);
-        ctx.writeAndFlush(msg + " now.\r\n");
+        /**
+         * 输出string对象必须转换为bytebuf，如果后续没有outbound进行转换，就会隐式的报类型不匹配错误。
+         * 例如输出字符串，就需要后续使用StringEncoder进行转换输出。
+         */
+        ctx.writeAndFlush(msg + " now.");
     }
 
     @Override
@@ -24,7 +28,7 @@ public class PersonServerHandler extends ChannelInboundHandlerAdapter {
         Person person = (Person) msg;
         System.out.println("server handler recieve:" + person.toString());
         System.out.println(ctx.channel().toString());
-        ctx.write("Server has received the message");
+        ctx.write("Server has processed the message" + new Date());
     }
 
     @Override
