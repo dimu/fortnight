@@ -10,8 +10,17 @@ basic knowledge about netty, from netty official guide.
 ## 研究内容
 1. 客户端往服务端发送数据，服务端同步返回
 2. 客户端往服务端发送数据，服务端异步返回
+3. udp简单实现样例
+4. socket简单实现样例
+5. gRPC集成
+6. thrift集成
 
-## netty核心类
+
+## netty核心概念
+1. Bootstrap
+2. Channel
+3. Pipeline
+4. Handler
 
 
 ## netty集成gRPC序列化
