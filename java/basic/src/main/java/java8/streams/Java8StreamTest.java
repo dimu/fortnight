@@ -1,12 +1,9 @@
 package java8.streams;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.IntSummaryStatistics;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -244,8 +241,9 @@ public class Java8StreamTest {
 	                                    .collect(Collectors.toList());
 	    pairs.forEach(item -> { 
 	            for (int i = 0; i < item.length; i++) {
-	                System.out.println(item[i]);
+	                System.out.printf("index: %d, value: %d\n", i, item[i]);
 	            }
+			System.out.println();
 	    });
 	}
 	
@@ -281,4 +279,35 @@ public class Java8StreamTest {
 	private static int getAverage(List<Integer> numbers) {
 		return getSum(numbers) / numbers.size();
 	}
+
+	/**
+	 * CompletableFuture用于异步执行task，注意执行线程不能使用默认，否则主线程退出，fork线程没有执行完，会默认杀死相关线程
+	 *
+	 * Todo 深入研究
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void testCompletableFuture() throws InterruptedException {
+		System.out.println(Thread.currentThread().getName() + new Date() + " start");
+
+		CompletableFuture.runAsync(()->{
+			try {
+				Thread.sleep(2000L);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println(Thread.currentThread().getName() + new Date());
+		}, Executors.newSingleThreadExecutor());
+//				.whenComplete((r, e) -> {
+//			System.out.println("执行结果为"+r);
+//		}).exceptionally(e -> {
+//			e.printStackTrace();
+//			System.out.println("ddsdsd");
+//			return null;
+//		});;
+
+		System.out.println(Thread.currentThread().getName() + new Date() + " end");
+		Thread.sleep(3000L);
+	}
+
 }
